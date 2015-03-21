@@ -84,6 +84,7 @@ public class LUFactorization {
         }
 
         //TODO estimate error
+        return null;
     }
 
     private static void swap(double[][] matrix, int row, int row2) {
