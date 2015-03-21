@@ -5,17 +5,17 @@ public class PowerMethod {
     double eigenValue;
     double eigenVector[][];
 
-    public int PowerMethod(double[][] a, double tol, double[][] initial) {
+    public PowerMethod(double[][] a, double tol, double[][] initial) {
         this.a = a;
         this.tol = tol;
         this.initial = initial;
     }
 
     public int findErrorTol() {
-
+        return 0;
     }
 
     public int powerMethod(double[][] a, double[][] initial) {
-        
+        return 0;
     } 
 }
