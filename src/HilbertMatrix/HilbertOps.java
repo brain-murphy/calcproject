@@ -1,6 +1,7 @@
 package HilbertMatrix;
 
 import java.util.Arrays;
+import java.util.stream.DoubleStream;
 
 /**
  * Created by Brian on 3/21/2015.
@@ -21,7 +22,7 @@ public class HilbertOps {
     }
 
     public static void main(String[] args) {
-        printMatrix(generateHilbertMatrix(5));
+        System.out.println(norm(generateHilbertMatrix(5)));
     }
 
     public static void printMatrix(double[][] matrix) {
@@ -29,4 +30,10 @@ public class HilbertOps {
             System.out.println(Arrays.toString(v));
         }
     }
+
+    public static double norm(double[][] matrix) {
+        return Arrays.stream(matrix)
+                .flatMapToDouble(x -> Arrays.stream(x)).max().getAsDouble();
+    }
+
 }
