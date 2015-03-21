@@ -1,3 +1,5 @@
+package HilbertMatrix;
+
 import java.util.Arrays;
 
 /**
