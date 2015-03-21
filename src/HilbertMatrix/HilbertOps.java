@@ -22,7 +22,7 @@ public class HilbertOps {
     }
 
     public static void main(String[] args) {
-        System.out.println(norm(generateHilbertMatrix(5)));
+        printMatrix(General.Ops.matrixMult(new double[][]{{1,0},{0,1}},new double[][]{{8,8},{8,8}}));
     }
 
     public static void printMatrix(double[][] matrix) {
