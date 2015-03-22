@@ -74,4 +74,14 @@ public class Ops {
 
         return result;
     }
+
+    public static double vectorNorm(double[] vector) {
+        double dot = 0;
+
+        for (double ele : vector) {
+            dot += Math.pow(ele, 2);
+        }
+
+        return Math.sqrt(dot);
+    }
 }

@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class HilbertOps {
 
-    public static double[][] generateHilbertMatrix(int width){
+    static double[][] generateHilbertMatrix(int width){
 
         double[][] H = new double[width][width];
 
@@ -36,7 +36,7 @@ public class HilbertOps {
         }
     }
 
-    public static double norm(double[][] matrix) {
+    static double norm(double[][] matrix) {
         return Arrays.stream(matrix)
                 .flatMapToDouble(x -> Arrays.stream(x)).max().getAsDouble();
     }
@@ -53,5 +53,13 @@ public class HilbertOps {
                 L[i][j] = (- (L[i][j]));
             }
         }
+    }
+
+    static double cosine(int x, int y) {
+        return x / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
+    static double sine(int x, int y) {
+        return (-y) / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 }
