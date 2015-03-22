@@ -38,7 +38,9 @@ public class HilbertOps {
 
     static double norm(double[][] matrix) {
         return Arrays.stream(matrix)
-                .flatMapToDouble(x -> Arrays.stream(x)).max().getAsDouble();
+                .flatMapToDouble(x -> Arrays.stream(x))
+                .map(x -> Math.abs(x))
+                .max().getAsDouble();
     }
 
     static void swap(double[][] matrix, int row, int row2) {
@@ -55,11 +57,11 @@ public class HilbertOps {
         }
     }
 
-    static double cosine(int x, int y) {
+    static double cosine(double x, double y) {
         return x / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
-    static double sine(int x, int y) {
+    static double sine(double x, double y) {
         return (-y) / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 }

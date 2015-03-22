@@ -1,6 +1,10 @@
 package HilbertMatrix;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import static General.Ops.*;
+import static HilbertMatrix.HilbertOps.*;
 
 /**
  * Created by Brian on 3/21/2015.
@@ -108,6 +112,8 @@ public class QRFactorization {
         int numRows = matrix.length;
         int numCols = matrix[0].length;
 
+        LinkedList<double[][]> givenses = new LinkedList<>();
+
 
         for (int col = 0; col < numCols; col++) {
 
@@ -121,10 +127,38 @@ public class QRFactorization {
 
                 //make rotation matrix//
 
-            }
+                double[][] G = getIdentityMatrix(numRows);
 
+                double cosine = cosine(matrix[topRow][col], matrix[rowToKill][col]);
+                double sine = sine(matrix[topRow][col], matrix[rowToKill][col]);
+
+                int spacing = rowToKill - topRow;
+
+                G[topRow][col] = cosine;
+                G[rowToKill][col] = sine;
+                G[topRow][col + spacing] = -sine;
+                G[rowToKill][col + spacing] = cosine;
+
+
+                //store rotation matrix//
+                givenses.add(G);
+
+                //multiply//
+
+                matrix = matrixMult(G, matrix);
+            }
         }
-        return null;
+
+        double[][] R = matrix;
+        
+        //calculate Q//
+        double[][] Q = givenses.stream().reduce(getIdentityMatrix(numRows),
+                (Gtot, G) -> matrixMult(Gtot, transpose(G)));
+
+        //calculate error//
+        double error = norm(matrixSubtract(A, matrixMult(Q, R)));
+
+        return new QRFactorization(Q, R, error, false);
     }
 
 
@@ -146,5 +180,13 @@ public class QRFactorization {
 
     public double[][] getR() {
         return R;
+    }
+
+    public boolean usedHouseholder() {
+        return isHouseholder;
+    }
+
+    public boolean usedGivens() {
+        return !isHouseholder;
     }
 }

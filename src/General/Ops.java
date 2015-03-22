@@ -85,13 +85,15 @@ public class Ops {
         return Math.sqrt(dot);
     }
 
-    public static void transpose(double[][] matrix){
+    public static double[][] transpose(double[][] matrix) {
+        double[][] T = deepCopy(matrix);
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
-                double temp = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = temp;
+                T[i][j] = matrix[j][i];
+                T[j][i] = matrix[i][j];
             }
         }
+
+        return T;
     }
 }
