@@ -96,4 +96,21 @@ public class Ops {
 
         return T;
     }
+
+    public static boolean deepEquals(double[][] A, double[][] B) {
+        if (A == null || B == null) {
+            return false;
+        }
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+
+                if (Math.abs(A[i][j] - B[i][j]) > .00001) {
+                    return false;
+                }
+
+            }
+        }
+
+        return true;
+    }
 }

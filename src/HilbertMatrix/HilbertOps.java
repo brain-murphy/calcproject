@@ -1,11 +1,37 @@
 package HilbertMatrix;
 
+import static General.Ops.*;
 import java.util.Arrays;
 
 /**
  * Created by Brian on 3/21/2015.
  */
 public class HilbertOps {
+
+    private static LUFactorization pastLUFactorization;
+    private static double[][] pastLUMatrix;
+
+    private static QRFactorization pastQrFactorization;
+    private static double[][] pastQRMatrix;
+
+    public static double[] solve_lu_b(double[][] matrix, double[] b) {
+        if (matrix.length != b.length) {
+            throw new IllegalArgumentException("cannot solve for matrix and b different lengths");
+        }
+
+        //get factorization or use old//
+        if (!deepEquals(matrix, pastLUMatrix)) {
+            pastLUFactorization = LUFactorization.lu_fact(matrix);
+        }
+
+        //solve for x//
+
+        
+    }
+
+    public static double[] solve_qr_b(double[][] matrix, double[] b) {
+        QRFactorization factorization = LUFactorization.lu_fact()
+    }
 
     static double[][] generateHilbertMatrix(int width){
 
@@ -21,13 +47,6 @@ public class HilbertOps {
     }
 
     public static void main(String[] args) {
-        int x = 3;
-
-        if (x > 1) {
-            System.out.println("brian is right");
-        } else if (x > 2) {
-            System.out.println("brian is not right");
-        }
     }
 
     public static void printMatrix(double[][] matrix) {

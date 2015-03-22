@@ -1,6 +1,5 @@
 package HilbertMatrix;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static General.Ops.*;
@@ -160,10 +159,6 @@ public class QRFactorization {
 
         return new QRFactorization(Q, R, error, false);
     }
-
-
-
-
 
 
     /*
