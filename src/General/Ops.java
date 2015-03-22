@@ -50,4 +50,26 @@ public class Ops {
 
         return C;
     }
+
+    public static double[][] matrixSubtract(double[][] A, double[][] B) {
+        double[][] C = new double[A.length][A[0].length];
+
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] - B[i][j];
+            }
+        }
+
+        return C;
+    }
+
+    public static double[][] scalarMult(double[][] matrix, double scalar) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[i][j] = matrix[i][j] * scalar;
+            }
+        }
+
+        return matrix;
+    }
 }

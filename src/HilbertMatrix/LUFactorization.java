@@ -8,8 +8,6 @@ import static General.Ops.*;
  */
 public class LUFactorization {
 
-    private boolean hasRun;
-
     private double[][] L, U;
     private double error;
 
@@ -22,12 +20,15 @@ public class LUFactorization {
 
 
     public static LUFactorization lu_fact(double[][] matrix) {
-        if (matrix.length != matrix[0].length) {
+
+        double[][] U = deepCopy(matrix);
+
+        if (U.length != U[0].length) {
             throw new IllegalArgumentException("LU factorization needs a square matrix");
         }
 
         //length, width equal. defined both for readability//
-        int numCols = matrix.length;
+        int numCols = U.length;
         int numRows = numCols;
 
 
@@ -45,26 +46,32 @@ public class LUFactorization {
 
             for (int rowToKill = topRow + 1; rowToKill < numRows; rowToKill++) {
 
+                if (Math.abs(U[rowToKill][col]) < .00001) {
+                    continue;
+                    //TODO figure out if this is acceptable
+                }
+
                 //partial pivot: find largest element in col//
                 double largestInCol = 0.0;
                 int rowOfLargest = 0;
                 for (int row = topRow; row < numRows; row++) {
-                    if (matrix[row][col] > largestInCol) {
-                        largestInCol = matrix[row][col];
+                    if (U[row][col] > largestInCol) {
+                        largestInCol = U[row][col];
                         rowOfLargest = row;
                     }
                 }
                 //partial pivot: pivoting//
-                swap(matrix, topRow, rowOfLargest);
-                swap(Ls[col], topRow, rowOfLargest);
+                HilbertOps.swap(U, topRow, rowOfLargest);
+                HilbertOps.swap(Ls[col], topRow, rowOfLargest);
+
 
                 //find value to multiply top row by to eliminate next row//
-                double multFactor = matrix[rowToKill][col] / matrix[topRow][col];
+                double multFactor = U[rowToKill][col] / U[topRow][col];
 
                 //eliminate row//
                 for (int i = col; i < numCols; i++) {
-                    matrix[rowToKill][i] = matrix[rowToKill][i]
-                            - matrix[topRow][i] * multFactor;
+                    U[rowToKill][i] = U[rowToKill][i]
+                            - U[topRow][i] * multFactor;
 
                     //record changes//
                     Ls[col][rowToKill][col] = Ls[col][rowToKill][col]
@@ -74,35 +81,21 @@ public class LUFactorization {
             }
         }
 
-
         //solve for L//
 
         for (int i = Ls.length - 2; i >= 0; i--) {
-            LInverse(Ls[i + 1]);
-            LInverse(Ls[i]);
+            HilbertOps.LInverse(Ls[i + 1]);
+            HilbertOps.LInverse(Ls[i]);
             Ls[i] = matrixMult(Ls[i + 1], Ls[i]);
         }
 
-        //TODO estimate error
-        return null;
+        double[][] L = Ls[0];
+
+        //error//
+        double[][] difference = matrixSubtract(matrixMult(L, U), matrix);
+
+        return new LUFactorization(L,U, HilbertOps.norm(difference));
     }
-
-    private static void swap(double[][] matrix, int row, int row2) {
-        double[] temp = matrix[row];
-        matrix[row] = matrix[row2];
-        matrix[row2] = temp;
-    }
-
-    private static void LInverse(double[][] L) {
-        for (int i = 0; i < L.length; i++) {
-            for (int j = i + 1; j < L[0].length; j++) {
-                L[i][j] = (- (L[i][j]));
-            }
-        }
-    }
-
-
-
 
     /*
         GETTERS
@@ -118,9 +111,5 @@ public class LUFactorization {
 
     public double getError() {
         return error;
-    }
-
-    public boolean isHasRun() {
-        return hasRun;
     }
 }

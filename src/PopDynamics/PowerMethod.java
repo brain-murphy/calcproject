@@ -1,3 +1,5 @@
+import static General.Ops.*;
+
 public class PowerMethod {
     double[][] a;
     double tol;
@@ -16,7 +18,8 @@ public class PowerMethod {
 
     public int powerMethod(double[][] a, double[][] vecApprox) {
         eigenValApprox = vecApprox[0][0];
-        eigenVecApprox = (a * vecApprox) / vecApprox[0][0];                 //implement matrix multiplication
+        eigenVecApprox = scalarMult(matrixMult(a,  vecApprox), vecApprox[0][0]);
+        return 1;
     }
 
     public double getEigenValue() {
