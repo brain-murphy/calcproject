@@ -9,6 +9,17 @@ import java.util.Random;
 
 public class ConvolutionalCode {
 
+	// Add 3 more slots to x array 
+	 private static int[][] addThreeToX(int[][] matrix) {
+        int[][] newM = new int[matrix.length + 3][(matrix[0].length)];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                newM[i][j] = matrix[i][j];
+            }
+        }
+        return newM;
+    }
+
 	//This will generate a n x 1 matrix
 	private static int[][] generateX(int length) {
 		int[][] x = new int[length][1];
@@ -18,7 +29,17 @@ public class ConvolutionalCode {
 				x[i][j] = rand.nextInt(2);
 			}	
 		}
-		return x;
+
+		int[][] newX = addThreeToX(x);
+		for (int i = newX.length - 3; i < newX.length; i++) {
+			for (int j = 0; j < 1; j++) {
+				newX[i][j] = 0;
+			}	
+		}
+		System.out.println("This is X");
+		printMatrix(x);
+		System.out.println("");
+		return newX;
 	}
 
 	//This generates a n x n matrix for A0
@@ -42,34 +63,15 @@ public class ConvolutionalCode {
 		return a;
  	}
 
- 	private int add2Binary(int x, int y) {
- 		int sum = x + y;
- 		if (sum == 2 || sum == 0) {
- 			return 0;
- 		} else {
- 			return 1;
- 		}
- 	}
-
- 	private int add3Binary(int x, int y, int z) {
- 		int sum = x + y + z;
- 		if (sum % 2 != 0) {
- 			return 1;
- 		} else {
- 			return 0;
- 		}
- 	}
-
+ 	// Multiply A with x
  	public static int[][] matrixMultiply(int[][] a, int[][] b) {
-        if (a[0].length != b.length) {
-            throw new IllegalArgumentException("matrix dimensions incompatible");
-        }
-
-        int[][] c = new int[a.length][b[0].length];
+        int[][] c = new int[a.length][1];
 
         for (int i = 0; i < c.length; i++) {
             for (int j = 0; j < c[0].length; j++) {
+
                 for (int k = 0; k < a[0].length; k++) {
+           
                     c[i][j] += a[i][k] * b[k][j];
                     if (c[i][j] % 2 != 0) {
                     	c[i][j] = 1;
@@ -87,7 +89,9 @@ public class ConvolutionalCode {
 		int[][] x = generateX(len);
 		int[][] a = generateA0(x);
 		int[][] y = matrixMultiply(a, x);
-
+		System.out.println("This is Y0");
+		printMatrix(y);
+		System.out.println("");
 		return y;
 	}
 
@@ -104,10 +108,7 @@ public class ConvolutionalCode {
 
 
 	public static void main(String[] args) {
-
-		int[][] s = findY0(6);
-		printMatrix(s);
-				
+		findY0(5);
 	}
 
 
