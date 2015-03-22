@@ -26,6 +26,7 @@ public class HilbertOps {
 
         //solve for x//
 
+        //TODO method stub; incomplete
         return null;
     }
 
@@ -38,7 +39,11 @@ public class HilbertOps {
         if (!deepEquals(matrix, pastLUMatrix)) {
             pastQRFactorization = QRFactorization.qr_fact_househ(matrix);
         }
-                return null;
+
+
+        return null;
+        //TODO method stub; incomplete
+
     }
 
     static double[][] generateHilbertMatrix(int width){
@@ -52,9 +57,6 @@ public class HilbertOps {
         }
 
         return H;
-    }
-
-    public static void main(String[] args) {
     }
 
     public static void printMatrix(double[][] matrix) {
@@ -76,6 +78,10 @@ public class HilbertOps {
         matrix[row2] = temp;
     }
 
+    /**
+     * flip sign of elements below diagonal
+     * @param L lower triangular matrix
+     */
     static void LInverse(double[][] L) {
         for (int i = 0; i < L.length; i++) {
             for (int j = i + 1; j < L[0].length; j++) {
@@ -84,10 +90,22 @@ public class HilbertOps {
         }
     }
 
+    /**
+     * cosine in the context of Givens rotations
+     * @param x element on the diagonal
+     * @param y element to be eliminated
+     * @return the cosine element of the givens matrix
+     */
     static double cosine(double x, double y) {
         return x / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
 
+    /**
+     * sine in the context of Givens rotations
+     * @param x element on the diagonal
+     * @param y element to be eliminated
+     * @return the sine element of the givens matrix
+     */
     static double sine(double x, double y) {
         return (-y) / Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }

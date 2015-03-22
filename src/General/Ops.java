@@ -1,5 +1,7 @@
 package General;
 
+import HilbertMatrix.HilbertOps;
+
 /**
  * Created by Brian on 3/21/2015.
  */
