@@ -1,5 +1,4 @@
 
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -7,7 +6,7 @@ import java.util.Random;
  *Created bu Yen Huang
 */ 
 
-public class ConvolutionalCode {
+public class encode {
 
 	// Add 3 more slots to x array 
 	 private static int[][] addThreeToX(int[][] matrix) {
@@ -63,6 +62,27 @@ public class ConvolutionalCode {
 		return a;
  	}
 
+ 	//This generates a n x n matrix for A1
+	private static int[][] generateA1(int[][] arr) {
+		int size = arr.length;
+		int[][] a = new int[size][size];
+
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				if (i == j) {
+					a[i][j] = 1;
+				} else if (i > j && i - j == 1) {
+					a[i][j] = 1;
+				} else if (i > j && i - j == 3) {
+					a[i][j] = 1;
+				} else {
+					a[i][j] = 0;
+				}
+			}
+		}
+		return a;
+ 	}
+
  	// Multiply A with x
  	public static int[][] matrixMultiply(int[][] a, int[][] b) {
         int[][] c = new int[a.length][1];
@@ -71,7 +91,7 @@ public class ConvolutionalCode {
             for (int j = 0; j < c[0].length; j++) {
 
                 for (int k = 0; k < a[0].length; k++) {
-           
+
                     c[i][j] += a[i][k] * b[k][j];
                     if (c[i][j] % 2 != 0) {
                     	c[i][j] = 1;
@@ -84,14 +104,36 @@ public class ConvolutionalCode {
         return c;
     }
 
-
- 	public static int[][] findY0(int len) {
+    //this is the encoding portion to find y
+ 	public static String[][] findY(int len) {
 		int[][] x = generateX(len);
-		int[][] a = generateA0(x);
-		int[][] y = matrixMultiply(a, x);
-		System.out.println("This is Y0");
-		printMatrix(y);
-		System.out.println("");
+
+		int[][] a0 = generateA0(x);
+		int[][] y0 = matrixMultiply(a0, x);
+		// System.out.println("This is Y0");
+		// printMatrix(y0);
+		// System.out.println("");
+
+		int[][] a1 = generateA1(x);
+		int[][] y1 = matrixMultiply(a1, x);
+		// System.out.println("This is Y1");
+		// printMatrix(y1);
+		// System.out.println("");
+
+		String[][] y = new String[len + 3][1];
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < y.length; i++) {
+			for (int j = 0; j < 1; j++) {
+
+				for (int k = 0; k < y0.length; k++) {
+					y[i][j] = Integer.toString(y0[i][j]) + Integer.toString(y1[i][j]) ;
+				}
+
+			}
+		}
+		System.out.println("This is Y");
+		printStringMatrix(y);
 		return y;
 	}
 
@@ -105,13 +147,15 @@ public class ConvolutionalCode {
         }
     }
 
+    public static void printStringMatrix(String[][] matrix) {
+        for (String[] v : matrix) {
+            System.out.println(Arrays.toString(v));
+        }
+    }
 
 
 	public static void main(String[] args) {
-		findY0(5);
-	}
-
-
-	
+		findY(5);
+	}	
 	
 }
