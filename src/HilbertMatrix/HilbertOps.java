@@ -11,7 +11,7 @@ public class HilbertOps {
     private static LUFactorization pastLUFactorization;
     private static double[][] pastLUMatrix;
 
-    private static QRFactorization pastQrFactorization;
+    private static QRFactorization pastQRFactorization;
     private static double[][] pastQRMatrix;
 
     public static double[] solve_lu_b(double[][] matrix, double[] b) {
@@ -26,11 +26,19 @@ public class HilbertOps {
 
         //solve for x//
 
-        
+        return null;
     }
 
     public static double[] solve_qr_b(double[][] matrix, double[] b) {
-        QRFactorization factorization = LUFactorization.lu_fact()
+        if (matrix.length != b.length) {
+            throw new IllegalArgumentException("cannot solve for matrix and b different lengths");
+        }
+
+        //get factorization or use old//
+        if (!deepEquals(matrix, pastLUMatrix)) {
+            pastQRFactorization = QRFactorization.qr_fact_househ(matrix);
+        }
+                return null;
     }
 
     static double[][] generateHilbertMatrix(int width){
