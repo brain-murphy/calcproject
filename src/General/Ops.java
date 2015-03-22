@@ -64,12 +64,14 @@ public class Ops {
     }
 
     public static double[][] scalarMult(double[][] matrix, double scalar) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                matrix[i][j] = matrix[i][j] * scalar;
+        double[][] result = deepCopy(matrix);
+
+        for (int i = 0; i < result.length; i++) {
+            for (int j = 0; j < result[0].length; j++) {
+                result[i][j] = result[i][j] * scalar;
             }
         }
 
-        return matrix;
+        return result;
     }
 }

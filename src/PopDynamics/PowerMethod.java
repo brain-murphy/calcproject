@@ -19,6 +19,7 @@ public class PowerMethod {
     public int powerMethod(double[][] a, double[][] vecApprox) {
         eigenValApprox = vecApprox[0][0];
         eigenVecApprox = scalarMult(matrixMult(a,  vecApprox), vecApprox[0][0]);
+        //should be dandy//
         return 1;
     }
 
