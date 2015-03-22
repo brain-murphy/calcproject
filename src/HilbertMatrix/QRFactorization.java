@@ -103,6 +103,27 @@ public class QRFactorization {
     }
 
     public static QRFactorization qr_fact_givens(double[][] matrix) {
+        double[][] A = deepCopy(matrix);
+
+        int numRows = matrix.length;
+        int numCols = matrix[0].length;
+
+
+        for (int col = 0; col < numCols; col++) {
+
+            int topRow = col;
+
+            for (int rowToKill = topRow + 1; rowToKill < numRows; rowToKill++) {
+
+                if (Math.abs(matrix[rowToKill][col]) < .00001) {
+                    continue;
+                }
+
+                //make rotation matrix//
+
+            }
+
+        }
         return null;
     }
 
