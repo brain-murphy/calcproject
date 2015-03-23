@@ -1,10 +1,11 @@
 import static General.Ops.*;
 
 public class PowerMethod {
-    double[][] a;
-    double tol;
-    double eigenValApprox;
-    double[][] eigenVecApprox;
+    private double[][] a;
+    private double tol;
+    private double eigenValApprox;
+    private double[][] eigenVecApprox;
+    private double iterationNum;
 
     public PowerMethod(double[][] a, double tol, double[][] initial) {
         this.a = a;
@@ -12,15 +13,17 @@ public class PowerMethod {
         eigenVecApprox = initial;
     }
 
-    public int findErrorTol() {
-        return 0;
-    }
 
     public int powerMethod(double[][] a, double[][] vecApprox) {
-        eigenValApprox = vecApprox[0][0];
-        eigenVecApprox = scalarMult(matrixMult(a,  vecApprox), vecApprox[0][0]);
-        //should be dandy//
-        return 1;
+        double error = 100;
+        while (error > tol) {
+            double temp = eigenValApprox;
+            eigenValApprox = vecApprox[0][0];
+            eigenVecApprox = scalarMult(matrixMult(a,  vecApprox), (1 / vecApprox[0][0]));
+            iterationNum++;
+            vecApprox = eigenVecApprox;
+            error = Math.abs(temp - eigenValApprox);
+        }
     }
 
     public double getEigenValue() {
@@ -29,5 +32,9 @@ public class PowerMethod {
 
     public double[][] getEigenVec() {
         return eigenVecApprox;
+    }
+    
+    public double getIterationNum() {
+        return iterationNum;
     }
 }
