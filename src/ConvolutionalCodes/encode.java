@@ -1,4 +1,4 @@
-
+package ConvolutionalCodes;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -155,7 +155,7 @@ public class encode {
 
 
 	public static void main(String[] args) {
-		findY(5);
+        findY(5);
 	}	
 	
 }
