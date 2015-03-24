@@ -51,7 +51,7 @@ public class gauss_seidel {
                 lower[i][j] = matrix[i][j];
             }
         }
-        System.out.println("This is diagonal matrix");
+        System.out.println("This is the diagonal matrix");
         printMatrix(lower);
         System.out.println("");
         return lower;
