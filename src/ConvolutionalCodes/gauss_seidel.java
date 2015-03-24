@@ -44,17 +44,20 @@ public class gauss_seidel {
     private static double[][] findDiagonal(double[][] matrix) {
         int length = matrix.length;
         int width = matrix[0].length - 1;
-        double[][] lower = new double[length][width];
+        double[][] diag = new double[length][width];
 
         for (int i = 0; i < length; i++) {
-            for (int j = 0; j < i; j++) {
-                lower[i][j] = matrix[i][j];
+            for (int j = 0; j < width; j++) {
+                if (i == j) {
+                    diag[i][j] = matrix[i][j];
+                }
+
             }
         }
         System.out.println("This is the diagonal matrix");
-        printMatrix(lower);
+        printMatrix(diag);
         System.out.println("");
-        return lower;
+        return diag;
     }
 
 
@@ -88,5 +91,6 @@ public class gauss_seidel {
         System.out.println("");
         double[][] u = findUpper(test);
         double[][] l = findLower(test);
+        double[][] d = findDiagonal(test);
     }
 }
