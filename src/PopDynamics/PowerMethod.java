@@ -28,8 +28,8 @@ public class PowerMethod {
         double error = 100;
         while (error > tol) {
             double temp = eigenValApprox;
-            eigenValApprox = vecApprox[0][0];
             vecApprox = scalarMult(matrixMult(a,  vecApprox), (1 / vecApprox[0][0]));
+            eigenValApprox = vecApprox[0][0];
             iterationNum++;
             double norm = 0;
             for (int i = 0; i < vecApprox.length; i++) {
@@ -38,14 +38,11 @@ public class PowerMethod {
             norm = Math.sqrt(norm);
             eigenVecApprox = scalarMult(vecApprox, (1 / norm));
             error = Math.abs(temp - eigenValApprox);
-            System.out.println(eigenVecApprox[0][0]);
+//            System.out.println(eigenValApprox);
 
         }
     }
 
-    private void calculateIterations() {
-
-    }
     public double getEigenValue() {
         return eigenValApprox;
     }
