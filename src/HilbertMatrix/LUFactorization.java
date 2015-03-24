@@ -48,10 +48,10 @@ public class LUFactorization {
 
 
         //stores all transformation matrixes//
-        double[][][] Lmatrices = new double[numCols][numCols][numCols];
+        double[][][] Lmatrices = new double[numCols][numRows][numCols];
 
 
-        //calculate all L matrices//
+        //calculate all L matrices and reduce U//
         for (int col = 0; col < numCols; col++) {
 
             /*  for readability. define index of row that will be used to
@@ -60,30 +60,19 @@ public class LUFactorization {
 
             //set up current L matrix to record transformations//
             Lmatrices[col] = getIdentityMatrix(numCols);
+            
 
             for (int rowToKill = topRowI + 1; rowToKill < numRows; rowToKill++) {
 
+                System.out.println("col:" + col + " row:" + rowToKill);
+                HilbertOps.printMatrix(U);
+                System.out.println();
+
                 //if row is already zero, no elimination required
-                if (Math.abs(U[rowToKill][col]) < .00001) {
-                    //TODO figure out if the constant .00001 is acceptable
+                if (Math.abs(U[rowToKill][col]) < .000001) {
+                    //TODO figure out if the constant .000001 is acceptable
                     continue;
                 }
-
-                //partial pivoting: find largest element in col//
-                double largestInCol = 0.0;
-                int rowOfLargest = 0;
-                for (int row = topRowI; row < numRows; row++) {
-                    if (U[row][col] > largestInCol) {
-                        largestInCol = U[row][col];
-                        rowOfLargest = row;
-                    }
-                }
-
-                //partial pivot: pivoting//
-                HilbertOps.swap(U, topRowI, rowOfLargest);
-                HilbertOps.swap(Lmatrices[col], topRowI, rowOfLargest);
-
-
 
                 //find value to multiply top row by in order to eliminate next row//
                 double multFactor = U[rowToKill][col] / U[topRowI][col];
@@ -95,10 +84,12 @@ public class LUFactorization {
                             - U[topRowI][i] * multFactor;
 
                     //record changes//
-                    Lmatrices[col][rowToKill][col] = Lmatrices[col][rowToKill][col]
+                    Lmatrices[col][rowToKill][i] = Lmatrices[col][rowToKill][i]
                             - Lmatrices[col][topRowI][i] * multFactor;
                 }
-
+                HilbertOps.printMatrix(U);
+                System.out.println();
+                System.out.println();
             }
         }
 

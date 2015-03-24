@@ -38,10 +38,14 @@ public class PartOneTest {
 
         for (int i = 0; i < H.length; i++) {
             for (int j = 0; j < H[0].length; j++) {
-                assertEquals("L matrix incorrect", expectedL[i][j],
-                        factorization.getL()[i][j], .00001);
                 assertEquals("U matrix incorrect", expectedU[i][j],
                         factorization.getU()[i][j], .00001);
+            }
+        }
+        for (int i = 0; i < H.length; i++) {
+            for (int j = 0; j < H[0].length; j++) {
+                assertEquals("L matrix incorrect", expectedL[i][j],
+                        factorization.getL()[i][j], .00001);
             }
         }
     }
