@@ -10,42 +10,77 @@ import java.util.Arrays;
  */
 public class HilbertOps {
 
-    private static LUFactorization pastLUFactorization;
-    private static double[][] pastLUMatrix;
+    public static void main(String[] args) {
 
-    private static QRFactorization pastQRFactorization;
-    private static double[][] pastQRMatrix;
+        for (int i = 2; i <= 20; i++) {
 
-    public static double[] solve_lu_b(double[][] matrix, double[] b_) {
-        if (matrix.length != b_.length) {
-            throw new IllegalArgumentException("cannot solve for matrix and b_ different lengths");
+            double[][] H = generateHilbertMatrix(i);
+            double[] b_ = new double[i];
+            double[][] matrixb = {b_};
+            Arrays.fill(b_, Math.pow(.1, i / 3));
+
+
+            //LU//
+
+            LUFactorization luFact = LUFactorization.lu_fact(H);
+            double[] luSolution = solve_lu_b(luFact, b_);
+
+            double[] Hx_forLU = matrixVectorMult(H, luSolution);
+            double normDifferenceLU = norm(matrixSubtract(new double[][]{Hx_forLU},
+                    matrixb));
+
+            System.out.println("============LU============");
+            System.out.println("x_sol: " + Arrays.toString(luSolution));
+            System.out.println("||LU - H|| = " + luFact.getError());
+            System.out.println("||Hx - b|| = " + normDifferenceLU);
+            System.out.println();
+
+
+            //QR HH//
+
+            QRFactorization QRHHFact = QRFactorization.qr_fact_househ(H);
+            double[] QRHHSolution = solve_qr_b(QRHHFact, b_);
+
+            double[] Hx_forHH = matrixVectorMult(H, QRHHSolution);
+            double normDifferenceHH = norm(matrixSubtract(new double[][]{Hx_forHH},
+                    matrixb));
+
+            System.out.println("======QR Householder=======");
+            System.out.println("x_sol: " + Arrays.toString(QRHHSolution));
+            System.out.println("||QR - H|| = " + QRHHFact.getError());
+            System.out.println("||Hx - b|| = " + normDifferenceHH);
+            System.out.println();
+
+
+            QRFactorization QRGFact = QRFactorization.qr_fact_givens(H);
+            double[] QRGSolution = solve_qr_b(QRGFact, b_);
+
+            double[] Hx_forG = matrixVectorMult(H, QRGSolution);
+            double normDifferenceG = norm(matrixSubtract(new double[][]{Hx_forG},
+                    matrixb));
+
+
+            System.out.println("=========QR Givens=========");
+            System.out.println("x_sol: " + Arrays.toString(luSolution));
+            System.out.println("||QR - H|| = " + QRGFact.getError());
+            System.out.println("||Hx - b|| = " + normDifferenceG);
+            System.out.println();
         }
-
-        //get factorization or use old//
-        if (!deepEquals(matrix, pastLUMatrix)) {
-            pastLUFactorization = LUFactorization.lu_fact(matrix);
-        }
-
-        //solve for y_ for  Ly_ = b_//
-
-        double[] y_ = Ops.backSubstitution_down(pastLUFactorization.getL(), b_);
-
-        return Ops.backSubstitution_up(pastLUFactorization.getU(), y_);
     }
 
-    public static double[] solve_qr_b(double[][] matrix, double[] b_) {
-        if (matrix.length != b_.length) {
-            throw new IllegalArgumentException("cannot solve for matrix and b_ different lengths");
-        }
+    public static double[] solve_lu_b(LUFactorization factorization, double[] b_) {
+        //solve for y_ for  Ly_ = b_//
 
-        //get factorization or use old//
-        if (!deepEquals(matrix, pastLUMatrix)) {
-            pastQRFactorization = QRFactorization.qr_fact_househ(matrix);
-        }
+        double[] y_ = Ops.backSubstitution_down(factorization.getL(), b_);
+
+        return Ops.backSubstitution_up(factorization.getU(), y_);
+    }
+
+    public static double[] solve_qr_b(QRFactorization factorization, double[] b_) {
 
         double[] y_ = new double[b_.length];
 
-        double[][] Qt = transpose(pastQRFactorization.getQ());
+        double[][] Qt = transpose(factorization.getQ());
 
         for (int i = 0; i < b_.length; i++) {
             for (int j = 0; j < Qt[0].length; j++) {
@@ -53,7 +88,7 @@ public class HilbertOps {
             }
         }
 
-        return backSubstitution_up(pastQRFactorization.getR(), y_);
+        return backSubstitution_up(factorization.getR(), y_);
 
     }
 
@@ -94,15 +129,11 @@ public class HilbertOps {
      * @param L lower triangular matrix
      */
     static void LInverse(double[][] L) {
-        System.out.println("beforeinvert");
-        printMatrix(L);
         for (int i = 0; i < L.length; i++) {
             for (int j = i + 1; j < L[0].length; j++) {
                 L[j][i] = (-(L[j][i]));
             }
         }
-        System.out.println("after");
-        printMatrix(L);
     }
 
     /**

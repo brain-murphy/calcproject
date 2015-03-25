@@ -177,4 +177,16 @@ public class Ops {
 
         return x_;
     }
+
+    public static double[] matrixVectorMult(double[][] matrix, double[] v_) {
+        double[] b_ = new double[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < v_.length; j++) {
+                b_[i] += matrix[i][j] * v_[j];
+            }
+        }
+
+        return b_;
+    }
 }

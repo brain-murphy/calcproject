@@ -40,8 +40,8 @@ public class QRFactorization {
         double[][] A = deepCopy(matrix);
 
         //for readability//
-        int numRows = matrix.length;
-        int numCols = matrix[0].length;
+        int numRows = A.length;
+        int numCols = A[0].length;
 
         //stores all of the householder reflections, so Q can be calculated//
         double[][][] HouseholderMs = new double[numCols][numRows][numCols];
@@ -50,7 +50,7 @@ public class QRFactorization {
 
 
             System.out.println("before");
-            HilbertOps.printMatrix(matrix);
+            HilbertOps.printMatrix(A);
             System.out.println();
             //for readability. index of the row on the diagonal//
             int topRowI = col;
@@ -66,7 +66,7 @@ public class QRFactorization {
 
             for (int i = 0; i < u_.length; i++) {
                 //copy values into u_//
-                u_[i] = matrix[i + topRowI][col];
+                u_[i] = A[i + topRowI][col];
 
                 normV += Math.pow(u_[i], 2);
             }
@@ -113,10 +113,10 @@ public class QRFactorization {
             HouseholderMs[col] = H;
 
             //apply reflection//
-            matrix = matrixMult(H, matrix);
+            A = matrixMult(H, A);
 
             System.out.println("after");
-            HilbertOps.printMatrix(matrix);
+            HilbertOps.printMatrix(A);
             System.out.println();
         }
 
@@ -131,9 +131,9 @@ public class QRFactorization {
 
         //calculate error//
 
-        double error = HilbertOps.norm(matrixSubtract(A, matrixMult(Q, matrix)));
+        double error = HilbertOps.norm(matrixSubtract(matrix, matrixMult(Q, A)));
 
-        return new QRFactorization(Q, matrix, error, true);
+        return new QRFactorization(Q, A, error, true);
     }
 
     public static QRFactorization qr_fact_givens(double[][] matrix) {
@@ -142,8 +142,8 @@ public class QRFactorization {
         double[][] A = deepCopy(matrix);
 
         //for readability//
-        int numRows = matrix.length;
-        int numCols = matrix[0].length;
+        int numRows = A.length;
+        int numCols = A[0].length;
 
         //stores all rotations to calculate Q//
         LinkedList<double[][]> givenses = new LinkedList<>();
@@ -158,7 +158,7 @@ public class QRFactorization {
             for (int rowToKill = topRowI + 1; rowToKill < numRows; rowToKill++) {
 
                 //if already zero, move on//
-                if (Math.abs(matrix[rowToKill][col]) < .00001) {
+                if (Math.abs(A[rowToKill][col]) < .00001) {
                     continue;
                 }
 
@@ -168,8 +168,8 @@ public class QRFactorization {
                 //start with id matrix and overwrite with sine and cosine//
                 double[][] G = getIdentityMatrix(numRows);
 
-                double cosine = cosine(matrix[topRowI][col], matrix[rowToKill][col]);
-                double sine = sine(matrix[topRowI][col], matrix[rowToKill][col]);
+                double cosine = cosine(A[topRowI][col], A[rowToKill][col]);
+                double sine = sine(A[topRowI][col], A[rowToKill][col]);
 
                 //spacing of sine and cosine in matrix//
                 int spacing = rowToKill - topRowI;
@@ -184,18 +184,18 @@ public class QRFactorization {
                 givenses.add(G);
 
                 //multiply//
-                matrix = matrixMult(G, matrix);
+                A = matrixMult(G, A);
             }
         }
 
-        double[][] R = matrix;
+        double[][] R = A;
         
         //calculate Q//
         double[][] Q = givenses.stream().reduce(getIdentityMatrix(numRows),
                 (Gtot, G) -> matrixMult(Gtot, transpose(G)));
 
         //calculate error//
-        double error = norm(matrixSubtract(A, matrixMult(Q, R)));
+        double error = norm(matrixSubtract(matrix, matrixMult(Q, R)));
 
         return new QRFactorization(Q, R, error, false);
     }

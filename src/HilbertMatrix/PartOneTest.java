@@ -120,31 +120,38 @@ public class PartOneTest {
 
         double[] expectedX_ = {-0.185664, 2.78495, -8.35486, 6.49822};
 
-        double[] x_ = HilbertOps.solve_lu_b(H, b_);
+        LUFactorization factorization = LUFactorization.lu_fact(H);
+
+        double[] x_ = HilbertOps.solve_lu_b(factorization, b_);
 
         for (int i = 0; i < x_.length; i++) {
             assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
         }
     }
 
+    @Test(timeout = 1000)
     public void testQRHHSolving() {
         double[] expectedX_ =  {-0.185664, 2.78495, -8.35486, 6.49822};
 
-        double[] x_ = HilbertOps.solve_qr_b(H, b_);
+        QRFactorization factorization = QRFactorization.qr_fact_househ(H);
+
+        double[] x_ = HilbertOps.solve_qr_b(factorization, b_);
 
         for (int i = 0; i < x_.length; i++) {
             assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
         }
     }
 
-//    @Test(timeout = 1000)
-//    public void testQRGSolving() {
-//        double[] expectedX_ =  {-0.185664, 2.78495, -8.35486, 6.49822};
-//
-//        //TODO should work anyway
-//
-//        for (int i = 0; i < x_.length; i++) {
-//            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
-//        }
-//    }
+    @Test(timeout = 1000)
+    public void testQRGSolving() {
+        double[] expectedX_ =  {-0.185664, 2.78495, -8.35486, 6.49822};
+
+        QRFactorization factorization = QRFactorization.qr_fact_givens(H);
+
+        double[] x_ = HilbertOps.solve_qr_b(factorization, b_);
+
+        for (int i = 0; i < x_.length; i++) {
+            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
+        }
+    }
 }
