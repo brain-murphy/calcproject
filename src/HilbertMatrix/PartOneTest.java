@@ -3,6 +3,8 @@ package HilbertMatrix;
 import General.Ops;
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.*;
 
 /**
@@ -11,10 +13,12 @@ import static junit.framework.TestCase.*;
 public class PartOneTest {
 
     private double[][] H;
+    private double[] b_;
 
     @Before
     public void setUp() {
         H = HilbertOps.generateHilbertMatrix(4);
+        b_ = new double[]{0.0464159, 0.0464159, 0.0464159, 0.0464159};
     }
 
     @Test(timeout = 1000)
@@ -87,7 +91,7 @@ public class PartOneTest {
     }
 
     @Test(timeout = 1000)
-     public void testQRGivensFactorization() {
+    public void testQRGivensFactorization() {
 
         QRFactorization factorization = QRFactorization.qr_fact_givens(H);
 
@@ -110,4 +114,37 @@ public class PartOneTest {
             }
         }
     }
+
+    @Test(timeout = 1000)
+    public void testLUSolving() {
+
+        double[] expectedX_ = {-0.185664, 2.78495, -8.35486, 6.49822};
+
+        double[] x_ = HilbertOps.solve_lu_b(H, b_);
+
+        for (int i = 0; i < x_.length; i++) {
+            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
+        }
+    }
+
+    public void testQRHHSolving() {
+        double[] expectedX_ =  {-0.185664, 2.78495, -8.35486, 6.49822};
+
+        double[] x_ = HilbertOps.solve_qr_b(H, b_);
+
+        for (int i = 0; i < x_.length; i++) {
+            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
+        }
+    }
+
+//    @Test(timeout = 1000)
+//    public void testQRGSolving() {
+//        double[] expectedX_ =  {-0.185664, 2.78495, -8.35486, 6.49822};
+//
+//        //TODO should work anyway
+//
+//        for (int i = 0; i < x_.length; i++) {
+//            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
+//        }
+//    }
 }

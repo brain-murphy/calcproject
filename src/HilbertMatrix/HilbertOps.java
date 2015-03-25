@@ -1,5 +1,7 @@
 package HilbertMatrix;
 
+import General.Ops;
+
 import static General.Ops.*;
 import java.util.Arrays;
 
@@ -14,9 +16,9 @@ public class HilbertOps {
     private static QRFactorization pastQRFactorization;
     private static double[][] pastQRMatrix;
 
-    public static double[] solve_lu_b(double[][] matrix, double[] b) {
-        if (matrix.length != b.length) {
-            throw new IllegalArgumentException("cannot solve for matrix and b different lengths");
+    public static double[] solve_lu_b(double[][] matrix, double[] b_) {
+        if (matrix.length != b_.length) {
+            throw new IllegalArgumentException("cannot solve for matrix and b_ different lengths");
         }
 
         //get factorization or use old//
@@ -24,15 +26,16 @@ public class HilbertOps {
             pastLUFactorization = LUFactorization.lu_fact(matrix);
         }
 
-        //solve for x//
+        //solve for y_ for  Ly_ = b_//
 
-        //TODO method stub; incomplete
-        return null;
+        double[] y_ = Ops.backSubstitution_down(pastLUFactorization.getL(), b_);
+
+        return Ops.backSubstitution_up(pastLUFactorization.getU(), y_);
     }
 
-    public static double[] solve_qr_b(double[][] matrix, double[] b) {
-        if (matrix.length != b.length) {
-            throw new IllegalArgumentException("cannot solve for matrix and b different lengths");
+    public static double[] solve_qr_b(double[][] matrix, double[] b_) {
+        if (matrix.length != b_.length) {
+            throw new IllegalArgumentException("cannot solve for matrix and b_ different lengths");
         }
 
         //get factorization or use old//
@@ -40,9 +43,17 @@ public class HilbertOps {
             pastQRFactorization = QRFactorization.qr_fact_househ(matrix);
         }
 
+        double[] y_ = new double[b_.length];
 
-        return null;
-        //TODO method stub; incomplete
+        double[][] Qt = transpose(pastQRFactorization.getQ());
+
+        for (int i = 0; i < b_.length; i++) {
+            for (int j = 0; j < Qt[0].length; j++) {
+                y_[i] += Qt[i][j] * b_[j];
+            }
+        }
+
+        return backSubstitution_up(pastQRFactorization.getR(), y_);
 
     }
 
