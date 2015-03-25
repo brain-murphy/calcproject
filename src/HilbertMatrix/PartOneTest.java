@@ -1,5 +1,6 @@
 package HilbertMatrix;
 
+import General.Ops;
 import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.*;
@@ -64,6 +65,17 @@ public class PartOneTest {
                                 {0, 0.118533, 0.125655, 0.117542},
                                 {0, 0, 0.00622177, 0.00956609},
                                 {0, 0, 0, -0.000187905}};
+
+        System.out.println("Q");
+        HilbertOps.printMatrix(factorization.getQ());
+        System.out.println();
+
+        System.out.println("R");
+        HilbertOps.printMatrix(factorization.getR());
+        System.out.println();
+        System.out.println();
+
+
 
         for (int i = 0; i < H.length; i++) {
             for (int j = 0; j < H[0].length; j++) {
