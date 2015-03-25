@@ -184,13 +184,11 @@ public class gauss_seidel {
 
             double divisionFactor = 0;
             for (int i = 0; i < combined.length; i++) {
-
                 for (int j = 0; j < combined[0].length; j++) {
 
                     if (i == j) {
                         divisionFactor = combined[i][j];
                     }
-
 
                     combined[i][j] = combined[i][j] / divisionFactor;
                 }
