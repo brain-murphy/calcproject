@@ -143,12 +143,70 @@ public class gauss_seidel {
         return result;
     }
 
+    // row reducing an augmented matrix (L+D)|(-Ux + b)
+    private static double[][] gaussElimination(double[][] a, double[][] b) {
+        double[][] combined = new double[a.length][a[0].length + 1];
+        for (int c = 0; c < combined.length; c++) {
+            for (int d = 0; d < combined[0].length - 1; d++) {
+                combined[c][d] = a[c][d];
+            }
+        }
 
-    private double[][] gaussianElimination(double[][] a, double[][] b) {
-        for (int i = 0; i < b.length; i++) {
+        for (int e = 0; e < combined.length; e++) {
+            for (int f = combined[0].length - 1; f < combined[0].length; f++) {
+                combined[e][f] = b[e][0];
+            }
+        }
+
+        //row-reducing starts now
+        for (int col = 0; col < combined.length; col++) {
+            int topRow = col;
+            for (int row = col + 1; row < combined.length; row++) {
+                if (Math.abs(combined[row][col]) > Math.abs(combined[topRow][col])) {
+                    topRow = row;
+                }
+            }
+
+            // swapping for partial pivoting
+            double[] swapped = combined[col];
+            combined[col] = combined[topRow];
+            combined[topRow] = swapped;
+
+
+            // making it in echelon form
+            for (int i = col + 1; i < combined.length; i++) {
+                double multFactor = combined[i][col] / combined[col][col];
+                for (int j = col; j < combined.length + 1; j++) {
+                    combined[i][j] = combined[i][j] - multFactor * combined[col][j];
+                }
+
+            }
+
+            double divisionFactor = 0;
+            for (int i = 0; i < combined.length; i++) {
+
+                for (int j = 0; j < combined[0].length; j++) {
+
+                    if (i == j) {
+                        divisionFactor = combined[i][j];
+                    }
+
+
+                    combined[i][j] = combined[i][j] / divisionFactor;
+                }
+
+            }
+
 
         }
-        return null;
+
+        //backward substitution
+
+    
+
+        printMatrix(combined);
+
+        return combined;
     }
 
 
@@ -191,6 +249,7 @@ public class gauss_seidel {
 
         double[][] lAndD = combineLowerAndDiagonal(test);
         double[][] r = combineUpperXandB(test, initialX);
+        double[][] e = gaussElimination(lAndD, r);
 
     }
 }
