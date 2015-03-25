@@ -48,6 +48,10 @@ public class QRFactorization {
 
         for (int col = 0; col < numCols; col++) {
 
+
+            System.out.println("before");
+            HilbertOps.printMatrix(matrix);
+            System.out.println();
             //for readability. index of the row on the diagonal//
             int topRowI = col;
 
@@ -59,21 +63,22 @@ public class QRFactorization {
 
             //norm of the vector eliminated. for calculating u_//
             double normV = 0.0;
-            boolean allZero = true;
 
             for (int i = 0; i < u_.length; i++) {
                 //copy values into u_//
                 u_[i] = matrix[i + topRowI][col];
 
-                //check if any values are nonzero//
-                if (Math.abs(u_[i]) > .00001) {
-                    allZero = false;
-                }
-
                 normV += Math.pow(u_[i], 2);
             }
 
-            //move on if already zero//
+            //check if we can skip because there are no rows to reduce//
+            boolean allZero = true;
+            for (int i = 1; i < u_.length; i++) {
+                if (Math.abs(u_[i]) > .00001) {
+                    allZero = false;
+                }
+            }
+
             if (allZero) {
                 continue;
             }
@@ -87,7 +92,7 @@ public class QRFactorization {
             //find norm of u_, squared//
             double normU_2 = 0;
             for (int i = 0; i < u_.length; i++) {
-                normU_2 += Math.pow(u_[0], 2);
+                normU_2 += Math.pow(u_[i], 2);
             }
 
             //calculate u_ u_t//
@@ -109,6 +114,10 @@ public class QRFactorization {
 
             //apply reflection//
             matrix = matrixMult(H, matrix);
+
+            System.out.println("after");
+            HilbertOps.printMatrix(matrix);
+            System.out.println();
         }
 
         //matrix is now equal to R//

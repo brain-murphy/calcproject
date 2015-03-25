@@ -68,7 +68,6 @@ public class PartOneTest {
 
         System.out.println("Q");
         HilbertOps.printMatrix(factorization.getQ());
-        System.out.println();
 
         System.out.println("R");
         HilbertOps.printMatrix(factorization.getR());
