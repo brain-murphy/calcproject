@@ -83,11 +83,15 @@ public class HilbertOps {
      * @param L lower triangular matrix
      */
     static void LInverse(double[][] L) {
+        System.out.println("beforeinvert");
+        printMatrix(L);
         for (int i = 0; i < L.length; i++) {
             for (int j = i + 1; j < L[0].length; j++) {
-                L[i][j] = (- (L[i][j]));
+                L[j][i] = (-(L[j][i]));
             }
         }
+        System.out.println("after");
+        printMatrix(L);
     }
 
     /**

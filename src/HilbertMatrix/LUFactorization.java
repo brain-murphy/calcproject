@@ -60,7 +60,7 @@ public class LUFactorization {
 
             //set up current L matrix to record transformations//
             Lmatrices[col] = getIdentityMatrix(numCols);
-            
+
 
             for (int rowToKill = topRowI + 1; rowToKill < numRows; rowToKill++) {
 
@@ -69,7 +69,7 @@ public class LUFactorization {
                 System.out.println();
 
                 //if row is already zero, no elimination required
-                if (Math.abs(U[rowToKill][col]) < .000001) {
+                if (Math.abs(U[rowToKill][col]) < .000000001) {
                     //TODO figure out if the constant .000001 is acceptable
                     continue;
                 }
@@ -98,13 +98,13 @@ public class LUFactorization {
 
         //solve for L//
 
-        for (int i = Lmatrices.length - 2; i >= 0; i--) {
-            HilbertOps.LInverse(Lmatrices[i + 1]);
+        HilbertOps.LInverse(Lmatrices[0]);
+        for (int i = 1; i < Lmatrices.length; i++) {
             HilbertOps.LInverse(Lmatrices[i]);
-            Lmatrices[i] = matrixMult(Lmatrices[i + 1], Lmatrices[i]);
+            Lmatrices[i] = matrixMult(Lmatrices[i - 1], Lmatrices[i]);
         }
 
-        double[][] L = Lmatrices[0];
+        double[][] L = Lmatrices[Lmatrices.length - 1];
 
         //error//
         double[][] difference = matrixSubtract(matrixMult(L, U), matrix);
