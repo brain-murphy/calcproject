@@ -31,9 +31,9 @@ public class gauss_seidel {
                 mat[i][j] = matrix[i][j];
             }
         }
-        System.out.println("This is A matrix");
-        printMatrix(mat);
-        System.out.println("");
+//        System.out.println("This is A matrix");
+//        printMatrix(mat);
+//        System.out.println("");
         return mat;
     }
 
@@ -145,8 +145,8 @@ public class gauss_seidel {
 
 
         double[][] result = matrixAdd(negatedMult, b);
-        System.out.println("This is -Ux + b");
-        printMatrix(result);
+//        System.out.println("This is -Ux + b");
+//        printMatrix(result);
         return result;
     }
 
@@ -228,10 +228,6 @@ public class gauss_seidel {
         return result;
     }
 
-
-
-
-
     private static double[][] backSubstitution_up(double[][] matrix, double[][] b_) {
         int numRows = matrix.length;
         int numCols = matrix[0].length;
@@ -250,14 +246,21 @@ public class gauss_seidel {
         return x_;
     }
 
+    // returns X of k+1
+    public static double[][] returnX(double[][] matrix, double[][] x) {
+        double[][] lAndD = combineLowerAndDiagonal(matrix);
+        double[][] r = combineUpperXandB(matrix, x);
+        double[][] finalX = gaussElimination(lAndD, r);
 
+        return finalX;
+    }
 
     public static void printMatrix(double[][] matrix) {
         for (double[] v : matrix) {
             System.out.println(Arrays.toString(v));
         }
     }
-    
+
     public static void main(String[] args) {
 
         double[][] initialX = new double[3][1];
@@ -283,14 +286,11 @@ public class gauss_seidel {
         test[2][3] = 6;
 
 
-        System.out.println("This is test matrix");
-        printMatrix(test);
-        System.out.println("");
-        double[][] u = findUpper(test);
+//        System.out.println("This is test matrix");
+//        printMatrix(test);
+//        System.out.println("");
 
-        double[][] lAndD = combineLowerAndDiagonal(test);
-        double[][] r = combineUpperXandB(test, initialX);
-        double[][] e = gaussElimination(lAndD, r);
+        double[][] e = returnX(test, initialX);
 
     }
 }
