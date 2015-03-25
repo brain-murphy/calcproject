@@ -15,6 +15,15 @@ import static HilbertMatrix.HilbertOps.*;
  */
 public class QRFactorization {
 
+    ///DEBUG////////////////////////////
+    public static void main(String[] args){
+        double[][] matrix = {   {1,2,3},
+                                {4,5,6},
+                                {7,8,9} };
+
+        qr_fact_househ(matrix);
+    }
+
     private boolean isHouseholder;
 
     private double[][] Q, R;
@@ -44,14 +53,10 @@ public class QRFactorization {
         int numCols = A[0].length;
 
         //stores all of the householder reflections, so Q can be calculated//
-        double[][][] HouseholderMs = new double[numCols][numRows][numCols];
+        double[][][] HouseholderMs = new double[numCols - 1][numRows][numCols];
 
         for (int col = 0; col < numCols; col++) {
 
-
-            System.out.println("before");
-            HilbertOps.printMatrix(A);
-            System.out.println();
             //for readability. index of the row on the diagonal//
             int topRowI = col;
 
@@ -96,22 +101,43 @@ public class QRFactorization {
             }
 
             //calculate u_ u_t//
-            double[][] u_ut = getIdentityMatrix(numCols);
+            double[][] u_ut = new double[u_.length][u_.length];
             for (int i = 0; i < u_.length; i++) {
                 for (int j = 0; j < u_.length; j++) {
                     //offset the placement, so we don't reflect past elements//
-                    u_ut[i + topRowI][j + col] = u_[i] * u_[j];
+                    u_ut[i][j] = u_[i] * u_[j];
                 }
             }
 
-            //calculate I -2 * u_ut_ / norm(u_)^2//
-            double[][] H = getIdentityMatrix(numRows);
             double multFactor = 2 / normU_2;
-            H = matrixSubtract(H, scalarMult(u_ut, multFactor));
+            double[][] uutMultiplied = scalarMult(u_ut, multFactor);
+
+            double[][] toSubtract = new double[numRows][numCols];
+
+            for (int i = topRowI; i < numRows; i++) {
+                for (int j = col; j < numCols; j++) {
+                    toSubtract[i][j] = uutMultiplied[i - topRowI][j - col];
+                }
+            }
+//            System.out.println("normU squared:" + normU_2);
+//            System.out.println("toSubtract");
+//            printMatrix(toSubtract);
+
+
+            System.out.println("toSubtract");
+            printMatrix(toSubtract);
+            double[][] H = getIdentityMatrix(numRows);
+            H = matrixSubtract(H, toSubtract);
+
+            System.out.println("H");
+            printMatrix(H);
 
             //store reflection//
             HouseholderMs[col] = H;
 
+            System.out.println("before");
+            HilbertOps.printMatrix(A);
+            System.out.println();
             //apply reflection//
             A = matrixMult(H, A);
 
@@ -123,8 +149,11 @@ public class QRFactorization {
         //matrix is now equal to R//
 
         //calculate Q//
+        System.out.println("Hs");
+        printMatrix(HouseholderMs[0]);
         for (int i = 1; i < HouseholderMs.length; i++) {
             HouseholderMs[i] = matrixMult(HouseholderMs[i - 1], HouseholderMs[i]);
+            printMatrix(HouseholderMs[i]);
         }
 
         double[][] Q = HouseholderMs[HouseholderMs.length - 1];
