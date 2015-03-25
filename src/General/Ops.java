@@ -116,8 +116,14 @@ public class Ops {
         return true;
     }
 
+    /**
+     * for lower triangular matrix
+     * @param matrix
+     * @param b_
+     * @return
+     */
     public static double[] backSubstitution_down(double[][] matrix, double[] b_) {
-        
+
         int numRows = matrix.length;
         int numCols = matrix[0].length;
 
@@ -132,6 +138,37 @@ public class Ops {
             //use previously substituted vals//
             double known = 0.0;
             for (int col = 0; col < row; col++) {
+                known += matrix[row][col] * x_[col];
+            }
+
+            x_[row] = (b_[row] - known) / matrix[row][row];
+        }
+
+        return x_;
+    }
+
+    /**
+     * for upper triangular matrix
+     * @param matrix
+     * @param b_
+     * @return
+     */
+    public static double[] backSubstitution_up(double[][] matrix, double[] b_) {
+
+        int numRows = matrix.length;
+        int numCols = matrix[0].length;
+
+        if (b_.length != numCols) {
+            throw new IllegalArgumentException("wrong dimensions for solving");
+        }
+
+        double[] x_ = new double[b_.length];
+
+        for (int row = numRows - 1; row >=0; row--) {
+
+            //use previous vals//
+            double known = 0.0;
+            for (int col = numCols - 1; col > row; col--) {
                 known += matrix[row][col] * x_[col];
             }
 
