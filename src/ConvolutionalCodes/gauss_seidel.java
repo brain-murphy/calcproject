@@ -3,6 +3,24 @@ import java.util.Arrays;
 
 public class gauss_seidel {
 
+    // finds b matrix
+    // input is a nx(n+1) matrix
+    private static double[][] findB(double[][] matrix) {
+        int length = matrix.length;
+        int width = matrix[0].length;
+        double[][] b = new double[length][1];
+        for (int i = 0; i < length; i++) {
+            for (int j = width - 1; j < width; j++) {
+                b[i][0] = matrix[i][j];
+            }
+        }
+//        System.out.println("This is b matrix");
+//        printMatrix(b);
+//        System.out.println("");
+        return b;
+    }
+
+
     // finds upper triangular matrix
     // input is a nx(n+1) matrix
     private static double[][] findUpper(double[][] matrix) {
@@ -15,9 +33,9 @@ public class gauss_seidel {
                 upper[i][j] = matrix[i][j];
             }
         }
-        System.out.println("This is Upper matrix");
-        printMatrix(upper);
-        System.out.println("");
+//        System.out.println("This is Upper matrix");
+//        printMatrix(upper);
+//        System.out.println("");
         return upper;
     }
 
@@ -33,9 +51,9 @@ public class gauss_seidel {
                 lower[i][j] = matrix[i][j];
             }
         }
-        System.out.println("This is lower matrix");
-        printMatrix(lower);
-        System.out.println("");
+//        System.out.println("This is lower matrix");
+//        printMatrix(lower);
+//        System.out.println("");
         return lower;
     }
 
@@ -54,10 +72,83 @@ public class gauss_seidel {
 
             }
         }
-        System.out.println("This is the diagonal matrix");
-        printMatrix(diag);
-        System.out.println("");
+//        System.out.println("This is the diagonal matrix");
+//        printMatrix(diag);
+//        System.out.println("");
         return diag;
+    }
+
+    //a method for adding two matrices
+    private static double[][] matrixAdd(double[][] A, double[][] B) {
+        double[][] C = new double[A.length][A[0].length];
+
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+        return C;
+    }
+
+
+    // a method for multiplying matrices
+    private static double[][] multiplyTwoX(double[][] a, double[][] b) {
+        double[][] c = new double[a.length][b[0].length];
+
+        for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j < c[0].length; j++) {
+                for (int k = 0; k < a[0].length; k++) {
+
+                    c[i][j] += a[i][k] * b[k][j];
+
+                }
+            }
+        }
+        return c;
+    }
+
+    // a method for negating a matrix
+    private static double[][] negateMatrix(double[][] matrix) {
+        double[][] neg = new double[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                neg[i][j] = -matrix[i][j];
+            }
+        }
+        return neg;
+    }
+
+    // This is -(Ux) + b
+    private static double[][] combineUpperXandB(double[][] matrix, double[][] initialX) {
+        double[][] upper = findUpper(matrix);
+
+        double[][] b = findB(matrix);
+        double[][] mult = multiplyTwoX(upper, initialX);
+        double[][] negatedMult = negateMatrix(mult);
+
+
+        double[][] result = matrixAdd(negatedMult, b);
+        System.out.println("This is -Ux + b");
+        printMatrix(result);
+        return result;
+    }
+
+    //L+D
+    private static double[][] combineLowerAndDiagonal(double[][] matrix) {
+        double[][] lower = findLower(matrix);
+        double [][] diag = findDiagonal(matrix);
+        double[][] result = matrixAdd(lower, diag);
+//        System.out.println("This is L + D");
+//        printMatrix(result);
+        return result;
+    }
+
+
+    private double[][] gaussianElimination(double[][] a, double[][] b) {
+        for (int i = 0; i < b.length; i++) {
+
+        }
+        return null;
     }
 
 
@@ -69,6 +160,13 @@ public class gauss_seidel {
     }
 
     public static void main(String[] args) {
+
+        double[][] initialX = new double[3][1];
+        initialX[0][0] = 1;
+        initialX[1][0] = 1;
+        initialX[2][0] = 1;
+
+
         double[][] test = new double[3][4];
         test[0][0] = 2;
         test[0][1] = 3;
@@ -90,7 +188,9 @@ public class gauss_seidel {
         printMatrix(test);
         System.out.println("");
         double[][] u = findUpper(test);
-        double[][] l = findLower(test);
-        double[][] d = findDiagonal(test);
+
+        double[][] lAndD = combineLowerAndDiagonal(test);
+        double[][] r = combineUpperXandB(test, initialX);
+
     }
 }
