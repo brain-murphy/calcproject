@@ -20,6 +20,23 @@ public class gauss_seidel {
         return b;
     }
 
+    // find "A" matrix from the augmented matrix [A|B]
+    private static double[][] findA(double[][] matrix) {
+        int length = matrix.length;
+        int width = matrix[0].length - 1;
+        double[][] mat = new double[length][width];
+
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < width; j++) {
+                mat[i][j] = matrix[i][j];
+            }
+        }
+//        System.out.println("This is A matrix");
+//        printMatrix(mat);
+//        System.out.println("");
+        return mat;
+    }
+
 
     // finds upper triangular matrix
     // input is a nx(n+1) matrix
@@ -128,8 +145,8 @@ public class gauss_seidel {
 
 
         double[][] result = matrixAdd(negatedMult, b);
-        System.out.println("This is -Ux + b");
-        printMatrix(result);
+//        System.out.println("This is -Ux + b");
+//        printMatrix(result);
         return result;
     }
 
@@ -184,13 +201,11 @@ public class gauss_seidel {
 
             double divisionFactor = 0;
             for (int i = 0; i < combined.length; i++) {
-
                 for (int j = 0; j < combined[0].length; j++) {
 
                     if (i == j) {
                         divisionFactor = combined[i][j];
                     }
-
 
                     combined[i][j] = combined[i][j] / divisionFactor;
                 }
@@ -199,15 +214,48 @@ public class gauss_seidel {
 
 
         }
+//        printMatrix(combined);
+
+        double[][] second = findB(combined);
+        double[][] first = findA(combined);
+
 
         //backward substitution
+        double[][] result = backSubstitution_up(first, second);
 
-    
+        printMatrix(result);
 
-        printMatrix(combined);
-
-        return combined;
+        return result;
     }
+
+    private static double[][] backSubstitution_up(double[][] matrix, double[][] b_) {
+        int numRows = matrix.length;
+        int numCols = matrix[0].length;
+        if (b_.length != numCols) {
+            throw new IllegalArgumentException("wrong dimensions for solving");
+        }
+        double[][] x_ = new double[b_.length][1];
+        for (int row = numRows - 1; row >=0; row--) {
+            //use previous vals//
+            double known = 0.0;
+            for (int col = numCols - 1; col > row; col--) {
+                known += matrix[row][col] * x_[col][0];
+            }
+            x_[row][0] = (b_[row][0] - known) / matrix[row][row];
+        }
+        return x_;
+    }
+
+    // returns X of k+1 when you do (L+D)X = (-U)(X) + b
+    public static double[][] returnX(double[][] matrix, double[][] x) {
+        double[][] lAndD = combineLowerAndDiagonal(matrix);
+        double[][] r = combineUpperXandB(matrix, x);
+        double[][] finalX = gaussElimination(lAndD, r);
+        return finalX;
+    }
+
+
+
 
 
 
@@ -226,30 +274,27 @@ public class gauss_seidel {
 
 
         double[][] test = new double[3][4];
-        test[0][0] = 2;
-        test[0][1] = 3;
-        test[0][2] = 4;
-        test[0][3] = 5;
+        test[0][0] = 1;
+        test[0][1] = 0;
+        test[0][2] = 0;
+        test[0][3] = 1;
 
-        test[1][0] = 2;
-        test[1][1] = 4;
-        test[1][2] = 6;
-        test[1][3] = 5;
+        test[1][0] = 0;
+        test[1][1] = 1;
+        test[1][2] = 0;
+        test[1][3] = 1;
 
-        test[2][0] = 9;
-        test[2][1] = 8;
-        test[2][2] = 7;
-        test[2][3] = 6;
+        test[2][0] = 0;
+        test[2][1] = 0;
+        test[2][2] = 1;
+        test[2][3] = 1;
 
 
-        System.out.println("This is test matrix");
-        printMatrix(test);
-        System.out.println("");
-        double[][] u = findUpper(test);
+//        System.out.println("This is test matrix");
+//        printMatrix(test);
+//        System.out.println("");
 
-        double[][] lAndD = combineLowerAndDiagonal(test);
-        double[][] r = combineUpperXandB(test, initialX);
-        double[][] e = gaussElimination(lAndD, r);
+        double[][] e = returnX(test, initialX);
 
     }
 }
