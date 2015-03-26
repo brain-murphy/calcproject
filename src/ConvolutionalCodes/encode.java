@@ -1,6 +1,7 @@
 package ConvolutionalCodes;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *Created bu Yen Huang
@@ -155,7 +156,12 @@ public class encode {
 
 
 	public static void main(String[] args) {
-        findY(5);
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Type in a number for length of x");
+        int length = scan.nextInt();
+        
+        findY(length);
 	}	
 	
 }
