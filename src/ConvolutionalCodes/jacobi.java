@@ -4,6 +4,12 @@ import java.util.Arrays;
 
 public class jacobi {
 
+    private static int iteration;
+
+    public jacobi() {
+        iteration = 0;
+    }
+
     // finds b matrix
     // input is a nx(n+1) matrix
     private static double[][] findB(double[][] matrix) {
@@ -326,7 +332,11 @@ public class jacobi {
         printMatrix(y1);
         return y1;
     }
-    
+
+    public int getIteration() {
+        return iteration;
+    }
+
 
     //printing out a double matrix
     public static void printMatrix(double[][] matrix) {
@@ -344,7 +354,7 @@ public class jacobi {
 
     public static void main(String[] args) {
 
-        double tol = 0.001;
+        double tol = 0.0000001;
 
         double[][] initialX = new double[3][1];
         initialX[0][0] = 0;

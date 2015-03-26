@@ -3,6 +3,11 @@ import java.util.Arrays;
 
 public class gauss_seidel {
 
+    private static int iteration;
+    public gauss_seidel() {
+        iteration = 0;
+    }
+
     // finds b matrix
     // input is a nx(n+1) matrix
     private static double[][] findB(double[][] matrix) {
@@ -248,7 +253,6 @@ public class gauss_seidel {
 
     // returns X of k+1 when you do (L+D)X = (-U)(X) + b
     public static double[][] returnNewX(double[][] matrix, double[][] x, double tol) {
-        int count = 0;
         double error = 100;
         double[][] finalX = new double[x.length][1];
         while(error >= tol) {
@@ -261,8 +265,8 @@ public class gauss_seidel {
             double mag = findMagnitude(result);
 
             error = mag;
-            count++;
-            System.out.println(count);
+            iteration++;
+            System.out.println(iteration);
             x = finalX;
         }
 
@@ -283,13 +287,11 @@ public class gauss_seidel {
 
     public static double[][] matrixSubtract(double[][] A, double[][] B) {
         double[][] C = new double[A.length][A[0].length];
-
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[0].length; j++) {
                 C[i][j] = A[i][j] - B[i][j];
             }
         }
-
         return C;
     }
 
@@ -304,6 +306,11 @@ public class gauss_seidel {
         System.out.println("This is y0");
         printMatrix(y0);
         return y0;
+    }
+
+
+    public int getIteration() {
+        return iteration;
     }
 
     // finds y1
@@ -332,6 +339,10 @@ public class gauss_seidel {
             System.out.println(Arrays.toString(v));
         }
     }
+
+
+
+
 
     public static void main(String[] args) {
 
