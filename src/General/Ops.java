@@ -65,6 +65,18 @@ public class Ops {
         return C;
     }
 
+    public static double[][] matrixAdd(double[][] A, double[][] B) {
+        double[][] C = new double[A.length][A[0].length];
+
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] + B[i][j];
+            }
+        }
+
+        return C;
+    }
+
     public static double[][] scalarMult(double[][] matrix, double scalar) {
         double[][] result = deepCopy(matrix);
 
@@ -176,5 +188,17 @@ public class Ops {
         }
 
         return x_;
+    }
+
+    public static double[] matrixVectorMult(double[][] matrix, double[] v_) {
+        double[] b_ = new double[matrix.length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < v_.length; j++) {
+                b_[i] += matrix[i][j] * v_[j];
+            }
+        }
+
+        return b_;
     }
 }

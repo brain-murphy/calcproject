@@ -1,4 +1,6 @@
 package PopDynamics;
+import java.util.Arrays;
+
 import static General.Ops.*;
 
 /**
@@ -26,7 +28,7 @@ public class PowerMethod {
 
     public void power_method(double[][] a, double[][] vecApprox, double tol) {
         double error = 100;
-        while (error > tol) {
+        while (error > tol && iterationNum <= 100) {
             double temp = eigenValApprox;
             vecApprox = scalarMult(matrixMult(a,  vecApprox), (1 / vecApprox[0][0]));
             eigenValApprox = vecApprox[0][0];
@@ -38,8 +40,13 @@ public class PowerMethod {
             norm = Math.sqrt(norm);
             eigenVecApprox = scalarMult(vecApprox, (1 / norm));
             error = Math.abs(temp - eigenValApprox);
-//            System.out.println(eigenValApprox);
-
+        }
+        if (iterationNum >= 100) {
+            System.out.println("Did not converge to tolerance after 100 iterations.");
+        } else {
+            System.out.println("Approximate Eigenvalue: " + getEigenValue());
+            System.out.println("Approximate Eigenvector: " + Arrays.deepToString(getEigenVec()));
+            System.out.println("Iterations needed: " + getIterationNum());
         }
     }
 

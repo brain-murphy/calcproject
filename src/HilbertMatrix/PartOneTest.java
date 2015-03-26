@@ -3,6 +3,8 @@ package HilbertMatrix;
 import General.Ops;
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.*;
 
 /**
@@ -11,10 +13,12 @@ import static junit.framework.TestCase.*;
 public class PartOneTest {
 
     private double[][] H;
+    private double[] b_;
 
     @Before
     public void setUp() {
         H = HilbertOps.generateHilbertMatrix(4);
+        b_ = new double[]{0.0464159, 0.0464159, 0.0464159, 0.0464159};
     }
 
     @Test(timeout = 1000)
@@ -66,16 +70,6 @@ public class PartOneTest {
                                 {0, 0, 0.00622177, 0.00956609},
                                 {0, 0, 0, -0.000187905}};
 
-        System.out.println("Q");
-        HilbertOps.printMatrix(factorization.getQ());
-
-        System.out.println("R");
-        HilbertOps.printMatrix(factorization.getR());
-        System.out.println();
-        System.out.println();
-
-
-
         for (int i = 0; i < H.length; i++) {
             for (int j = 0; j < H[0].length; j++) {
                 assertEquals("Q matrix incorrect", expectedQ[i][j],
@@ -87,7 +81,7 @@ public class PartOneTest {
     }
 
     @Test(timeout = 1000)
-     public void testQRGivensFactorization() {
+    public void testQRGivensFactorization() {
 
         QRFactorization factorization = QRFactorization.qr_fact_givens(H);
 
@@ -103,11 +97,55 @@ public class PartOneTest {
 
         for (int i = 0; i < H.length; i++) {
             for (int j = 0; j < H[0].length; j++) {
-                assertEquals("Q matrix incorrect", expectedQ[i][j],
-                        factorization.getQ()[i][j], .00001);
                 assertEquals("R matrix incorrect", expectedR[i][j],
                         factorization.getR()[i][j], .00001);
             }
+        }
+        for (int i = 0; i < H.length; i++) {
+            for (int j = 0; j < H[0].length; j++) {
+                assertEquals("Q matrix incorrect", expectedQ[i][j],
+                        factorization.getQ()[i][j], .00001);
+            }
+        }
+    }
+
+    @Test(timeout = 1000)
+    public void testLUSolving() {
+
+        double[] expectedX_ = {-0.185664, 2.78495, -8.35486, 6.49822};
+
+        LUFactorization factorization = LUFactorization.lu_fact(H);
+
+        double[] x_ = HilbertOps.solve_lu_b(factorization, b_);
+
+        for (int i = 0; i < x_.length; i++) {
+            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
+        }
+    }
+
+    @Test(timeout = 1000)
+    public void testQRHHSolving() {
+        double[] expectedX_ =  {-0.185664, 2.78495, -8.35486, 6.49822};
+
+        QRFactorization factorization = QRFactorization.qr_fact_househ(H);
+
+        double[] x_ = HilbertOps.solve_qr_b(factorization, b_);
+
+        for (int i = 0; i < x_.length; i++) {
+            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
+        }
+    }
+
+    @Test(timeout = 1000)
+    public void testQRGSolving() {
+        double[] expectedX_ =  {-0.185664, 2.78495, -8.35486, 6.49822};
+
+        QRFactorization factorization = QRFactorization.qr_fact_givens(H);
+
+        double[] x_ = HilbertOps.solve_qr_b(factorization, b_);
+
+        for (int i = 0; i < x_.length; i++) {
+            assertEquals("elements differ at index:" + i, expectedX_[i], x_[i], .00001);
         }
     }
 }

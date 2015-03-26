@@ -64,12 +64,8 @@ public class LUFactorization {
 
             for (int rowToKill = topRowI + 1; rowToKill < numRows; rowToKill++) {
 
-                System.out.println("col:" + col + " row:" + rowToKill);
-                HilbertOps.printMatrix(U);
-                System.out.println();
-
                 //if row is already zero, no elimination required
-                if (Math.abs(U[rowToKill][col]) < .000000001) {
+                if (Math.abs(U[rowToKill][col]) < .0000000001) {
                     //TODO figure out if the constant .000001 is acceptable
                     continue;
                 }
@@ -87,9 +83,6 @@ public class LUFactorization {
                     Lmatrices[col][rowToKill][i] = Lmatrices[col][rowToKill][i]
                             - Lmatrices[col][topRowI][i] * multFactor;
                 }
-                HilbertOps.printMatrix(U);
-                System.out.println();
-                System.out.println();
             }
         }
 
