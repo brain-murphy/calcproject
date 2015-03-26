@@ -301,11 +301,43 @@ public class jacobi {
     }
 
 
+    // finds y0
+    //takes in a string 2d array
+    public static double[][] findY0(String[][] y) {
 
+        double[][] y0 = new double[y.length][1];
+        for (int i = 0; i < y.length; i++) {
+            y0[i][0] = Double.parseDouble(y[i][0].substring(0,1));
+        }
+        System.out.println("This is y0");
+        printMatrix(y0);
+        return y0;
+    }
 
+    // finds y1
+    //takes in a string 2d array
+    public static double[][] findY1(String[][] y) {
 
+        double[][] y1 = new double[y.length][1];
+        for (int i = 0; i < y.length; i++) {
+            y1[i][0] = Double.parseDouble(y[i][0].substring(1,2));
+        }
+        System.out.println("This is y1");
+        printMatrix(y1);
+        return y1;
+    }
+    
+
+    //printing out a double matrix
     public static void printMatrix(double[][] matrix) {
         for (double[] v : matrix) {
+            System.out.println(Arrays.toString(v));
+        }
+    }
+
+    //printing out a String matrix
+    public static void printStringMatrix(String[][] matrix) {
+        for (String[] v : matrix) {
             System.out.println(Arrays.toString(v));
         }
     }
@@ -342,6 +374,18 @@ public class jacobi {
 //        System.out.println("");
 
         double[][] e = returnNewX(test, initialX, tol);
+        String[][] y = new String[6][1];
+        y[0][0] = "1" + "0";
+        y[1][0] = "1" + "1";
+        y[2][0] = "1" + "0";
+        y[3][0] = "1" + "1";
+        y[4][0] = "1" + "0";
+        y[5][0] = "1" + "1";
+
+        printStringMatrix(y);
+
+        double [][] y0 = findY0(y);
+        double [][] y1 = findY1(y);
 
     }
 
