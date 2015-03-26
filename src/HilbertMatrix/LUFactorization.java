@@ -65,7 +65,7 @@ public class LUFactorization {
             for (int rowToKill = topRowI + 1; rowToKill < numRows; rowToKill++) {
 
                 //if row is already zero, no elimination required
-                if (Math.abs(U[rowToKill][col]) < .000000001) {
+                if (Math.abs(U[rowToKill][col]) < .0000000001) {
                     //TODO figure out if the constant .000001 is acceptable
                     continue;
                 }

@@ -61,7 +61,7 @@ public class HilbertOps {
 
 
             System.out.println("=========QR Givens=========");
-            System.out.println("x_sol: " + Arrays.toString(luSolution));
+            System.out.println("x_sol: " + Arrays.toString(QRGSolution));
             System.out.println("||QR - H|| = " + QRGFact.getError());
             System.out.println("||Hx - b|| = " + normDifferenceG);
             System.out.println();

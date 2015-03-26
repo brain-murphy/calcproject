@@ -70,16 +70,6 @@ public class PartOneTest {
                                 {0, 0, 0.00622177, 0.00956609},
                                 {0, 0, 0, -0.000187905}};
 
-        System.out.println("Q");
-        HilbertOps.printMatrix(factorization.getQ());
-
-        System.out.println("R");
-        HilbertOps.printMatrix(factorization.getR());
-        System.out.println();
-        System.out.println();
-
-
-
         for (int i = 0; i < H.length; i++) {
             for (int j = 0; j < H[0].length; j++) {
                 assertEquals("Q matrix incorrect", expectedQ[i][j],
@@ -107,10 +97,14 @@ public class PartOneTest {
 
         for (int i = 0; i < H.length; i++) {
             for (int j = 0; j < H[0].length; j++) {
-                assertEquals("Q matrix incorrect", expectedQ[i][j],
-                        factorization.getQ()[i][j], .00001);
                 assertEquals("R matrix incorrect", expectedR[i][j],
                         factorization.getR()[i][j], .00001);
+            }
+        }
+        for (int i = 0; i < H.length; i++) {
+            for (int j = 0; j < H[0].length; j++) {
+                assertEquals("Q matrix incorrect", expectedQ[i][j],
+                        factorization.getQ()[i][j], .00001);
             }
         }
     }
