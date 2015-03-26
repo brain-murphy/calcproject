@@ -260,9 +260,9 @@ public class jacobi {
         double[][] finalX = new double[x.length][1];
         while(error >= tol) {
             double[][] temp = x;
-            double[][] lAndU = combineLowerAndUpper(matrix);
+            double[][] diag = findDiagonal(matrix);
             double[][] r = combineUpperXandLower(matrix, x);
-            finalX = gaussElimination(lAndU, r);
+            finalX = gaussElimination(diag, r);
 
             double[][] result = matrixSubtract(finalX, temp);
             double mag = findMagnitude(result);
