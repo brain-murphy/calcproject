@@ -557,6 +557,8 @@ public class gauss_seidel {
 //I need a method that will combine two doubles together (i.e. 0 + 0 = 00 and 1+0 = 10). The output will be a 2d
 // double array (y). Try to keep it the same size
 
+//I also need another method to combine that matrix (stated above) with a matrix of doubles
+
 
 //I already wrote a method for splitting y in y0 and y1. They're called findY0() and findY1(). Maybe the type need to
 // be fixed based on the method above
