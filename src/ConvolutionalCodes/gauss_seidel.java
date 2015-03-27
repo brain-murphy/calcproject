@@ -295,6 +295,17 @@ public class gauss_seidel {
         return C;
     }
 
+
+    public static String[][] convertIntoStringArray(double[][] matrix) {
+        String[][] str = new String[matrix.length][matrix[0].length];
+        for (int i = 0; i < str.length; i++) {
+            for (int j = 0; j < str[0].length; j++) {
+                str[i][j] = String.valueOf(matrix[i][j]);
+            }
+        }
+        return str;
+    }
+
     // finds y0
     //takes in a string 2d array
     public static double[][] findY0(String[][] y) {
@@ -309,10 +320,6 @@ public class gauss_seidel {
     }
 
 
-    public int getIteration() {
-        return iteration;
-    }
-
     // finds y1
     //takes in a string 2d array
     public static double[][] findY1(String[][] y) {
@@ -325,6 +332,143 @@ public class gauss_seidel {
         printMatrix(y1);
         return y1;
     }
+
+    //returns the number of iterations needed for gauss seidel
+    public int getIteration() {
+        return iteration;
+    }
+
+    //added code March-26 below
+
+    //This generates a n x n matrix for A0
+    private static double[][] generateA0(int size) {
+
+        double[][] a = new double[size][size];
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == j) {
+                    a[i][j] = 1;
+                } else if (i > j && i - j == 2) {
+                    a[i][j] = 1;
+                } else if (i > j && i - j == 3) {
+                    a[i][j] = 1;
+                } else {
+                    a[i][j] = 0;
+                }
+            }
+        }
+        return a;
+    }
+
+    //This generates a n x n matrix for A1
+    private static double[][] generateA1(int size) {
+        double[][] a = new double[size][size];
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == j) {
+                    a[i][j] = 1;
+                } else if (i > j && i - j == 1) {
+                    a[i][j] = 1;
+                } else if (i > j && i - j == 3) {
+                    a[i][j] = 1;
+                } else {
+                    a[i][j] = 0;
+                }
+            }
+        }
+        return a;
+    }
+
+
+
+    //checks if input matrix "A" is A0
+    private static boolean checkifA0(double[][] matrix) {
+        double[][] a0 = generateA0(matrix.length);
+        int sum = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                sum += a0[i][j] - matrix[i][j];
+            }
+        }
+        return (sum == 0);
+    }
+
+    //checks if input matrix "A" is A1
+    private static boolean checkifA1(double[][] matrix) {
+        double[][] a0 = generateA1(matrix.length);
+        int sum = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                sum += a0[i][j] - matrix[i][j];
+            }
+        }
+        return (sum == 0);
+    }
+
+
+    // returns (n - 3) x 1
+    private static double[][] reduce3spots(double[][] matrix) {
+        double [][] result = new double[matrix.length - 3][1];
+        for (int i = 0; i < result.length; i++) {
+            result[i][0] = matrix[i][0];
+        }
+        return result;
+    }
+
+
+    // make it into augmented matrix
+    private static double[][] combineIntoAugmented(double[][] a, double[][]b) {
+        double[][] c = new double[a.length][a[0].length + 1];
+        for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j < c[0].length; j++) {
+                c[i][j] = a[i][j];
+            }
+        }
+
+        for (int i = 0; i < c.length; i++) {
+            c[i][c.length - 1] = b[i][0];
+
+        }
+
+
+        return c;
+    }
+
+    // this is the method that does the entire decoding
+    public static double[][] decode(double[][] matrix, double[][] guess, int tol) {
+        double[][] a = findA(matrix);
+
+        if (checkifA0(a)) {
+            System.out.println("Matrix is A0");
+
+            // need to combine A0 with Y0 into a single matrix
+            double[][] y = findB(matrix);
+            double[][] y0 = findY0(convertIntoStringArray(y));
+
+
+            double[][] m = combineIntoAugmented(a,y0);
+            double[][] result = returnNewX(m, guess, tol);
+            double[][] finalAnswer = reduce3spots(result);
+            return finalAnswer;
+        } else if (checkifA1(a)) {
+            System.out.println("Matrix is A1");
+            // need to combine A1 with Y1 into a single matrix
+            double[][] y = findB(matrix);
+            double[][] y1 = findY0(convertIntoStringArray(y));
+
+            double[][] m = combineIntoAugmented(a, y1);
+            double[][] result = returnNewX(m, guess, tol);
+            double[][] finalAnswer = reduce3spots(result);
+            return finalAnswer;
+        } else {
+            throw new IllegalArgumentException("Matrix needs to be A0 or A1. It is not in the right format");
+        }
+
+    }
+
+
 
 
 
@@ -393,5 +537,26 @@ public class gauss_seidel {
         double [][] y1 = findY1(y);
 
 
+        double[][] a = generateA0(3);
+        boolean result = checkifA0(a);
+        System.out.println(result);
+
+
+        String s = Integer.toString(1) + Integer.toString(1);
+        System.out.println(s);
+
+        int t = Integer.parseInt(s);
+        System.out.println(t);
+
+
     }
 }
+
+
+//Brian:
+//I need a method that will combine two doubles together (i.e. 0 + 0 = 00 and 1+0 = 10). The output will be a 2d
+// double array (y). Try to keep it the same size
+
+
+//I already wrote a method for splitting y in y0 and y1. They're called findY0() and findY1(). Maybe the type need to
+// be fixed based on the method above
