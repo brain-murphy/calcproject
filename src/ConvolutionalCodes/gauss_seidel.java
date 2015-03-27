@@ -299,15 +299,7 @@ public class gauss_seidel {
     }
 
 
-    public static String[][] convertIntoStringArray(double[][] matrix) {
-        String[][] str = new String[matrix.length][matrix[0].length];
-        for (int i = 0; i < str.length; i++) {
-            for (int j = 0; j < str[0].length; j++) {
-                str[i][j] = String.valueOf(matrix[i][j]);
-            }
-        }
-        return str;
-    }
+
 
 
 

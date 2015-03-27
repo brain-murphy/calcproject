@@ -10,6 +10,8 @@ import java.util.Random;
 // goes from Y to X
 public class decode {
 
+    private static int iteration = 0;
+
     public static void printMatrix(double[][] matrix) {
         for (double[] v : matrix) {
             System.out.println(Arrays.toString(v));
@@ -256,10 +258,6 @@ public class decode {
     }
 
 
-
-
-
-
     //checks if input matrix "A" is A0
     private static boolean checkifA0(double[][] matrix) {
         double[][] a0 = generateA0(matrix.length);
@@ -293,6 +291,25 @@ public class decode {
         }
         return result;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
