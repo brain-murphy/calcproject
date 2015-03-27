@@ -132,50 +132,123 @@ public class decode {
         return a;
     }
 
-    //decompose augmented matrix into Bd
+    //decompose augmented matrix into B
     private static double[][] decomposeIntoB(double[][] matrix) {
-        double[][] a = new double[matrix.length][matrix.length];
+        double[][] b = new double[matrix.length][1];
         for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                a[i][j] = matrix[i][j];
-            }
+            b[i][0] = matrix[i][matrix[0].length - 1];
         }
-        printMatrix(a);
-        return a;
+        return b;
+    }
+
+    //decompose Y into Y0
+    private static double[][] decomposeIntoY0(double[][] y) {
+        double[][] y0 = new double[y.length][1];
+        for (int i = 0; i < y.length; i++) {
+            y0[i][0] = Math.floor(y[i][0] / 10);
+        }
+        System.out.println("This is Y0");
+        printMatrix(y0);
+        return y0;
+
+    }
+
+    //decompose Y into Y1
+    private static double[][] decomposeIntoY1(double[][] y) {
+        double[][] y1 = new double[y.length][1];
+        for (int i = 0; i < y.length; i++) {
+            y1[i][0] = y[i][0] % 10;
+        }
+        System.out.println("This is Y1");
+        printMatrix(y1);
+        return y1;
+
     }
 
 
-
-    // this is the method that does the entire decoding
-    public static void decode(double[][] matrix, double[][] guess, double tol) {
+    // this is the method that does the entire decoding in Jacobi iteration
+    public static double[][] decodeJacobi(double[][] matrix, double[][] guess, double tol) {
         double[][] a = decomposeIntoA(matrix);
-
+        double[][] y = decomposeIntoB(matrix);
 
         if (checkifA0(a)) {
             System.out.println("Matrix is A0");
+            double[][] y0 = decomposeIntoY0(y);
 
-            // need to combine A0 with Y0 into a single matrix
+;
+            jacobi jac = new jacobi();
+
+            System.out.println("This is combined");
+            double[][] combinedAandY0 = combineIntoAugmented(a, y0);
+
+            double[][] finalXJacobi = jac.returnNewX(combinedAandY0, guess, tol);
 
 
+            double[][] jacobi = reduce3spots(finalXJacobi);
 
-//            double[][] y = findB(matrix);
-//            double[][] y0 = findY0(convertIntoStringArray(y));
-//
-//
-//            double[][] m = combineIntoAugmented(a,y0);
-//            double[][] result = returnNewX(m, guess, tol);
-//            double[][] finalAnswer = reduce3spots(result);
-//            return finalAnswer;
+            System.out.println("This is final answer");
+            printMatrix(jacobi);
+
+            return jacobi;
         } else if (checkifA1(a)) {
             System.out.println("Matrix is A1");
-            // need to combine A1 with Y1 into a single matrix
-//            double[][] y = findB(matrix);
-//            double[][] y1 = findY0(convertIntoStringArray(y));
-//
-//            double[][] m = combineIntoAugmented(a, y1);
-//            double[][] result = returnNewX(m, guess, tol);
-//            double[][] finalAnswer = reduce3spots(result);
-//            return finalAnswer;
+            double[][] y1 = decomposeIntoY1(y);
+
+            jacobi jac = new jacobi();
+
+            System.out.println("This is combined");
+            double[][] combinedAandY1 = combineIntoAugmented(a, y1);
+
+            double[][] finalXJacobi = jac.returnNewX(combinedAandY1, guess, tol);
+            double[][] jacobi = reduce3spots(finalXJacobi);
+            return jacobi;
+
+        } else {
+            throw new IllegalArgumentException("Matrix needs to be A0 or A1. It is not in the right format");
+        }
+
+    }
+
+    // this is the method that does the entire decoding in Gauss-Seidel
+    public static double[][] decodeGauss(double[][] matrix, double[][] guess, double tol) {
+        double[][] a = decomposeIntoA(matrix);
+        double[][] y = decomposeIntoB(matrix);
+
+        if (checkifA0(a)) {
+            System.out.println("Matrix is A0");
+            double[][] y0 = decomposeIntoY0(y);
+
+            gauss_seidel gs = new gauss_seidel();
+            jacobi jac = new jacobi();
+
+            System.out.println("This is combined");
+            double[][] combinedAandY0 = combineIntoAugmented(a, y0);
+
+
+            double[][] finalXGauss = gs.returnNewX(combinedAandY0, guess, tol);
+
+
+            double[][] gaussSeidel = reduce3spots(finalXGauss);
+
+            return gaussSeidel;
+
+//          return finalAnswer;
+        } else if (checkifA1(a)) {
+            System.out.println("Matrix is A1");
+            double[][] y1 = decomposeIntoY1(y);
+
+            gauss_seidel gs = new gauss_seidel();
+
+
+            System.out.println("This is combined");
+            double[][] combinedAandY1 = combineIntoAugmented(a, y1);
+
+
+            double[][] finalXGauss = gs.returnNewX(combinedAandY1, guess, tol);
+            double[][] gaussSeidel = reduce3spots(finalXGauss);
+            return gaussSeidel;
+
+
         } else {
             throw new IllegalArgumentException("Matrix needs to be A0 or A1. It is not in the right format");
         }
@@ -232,30 +305,38 @@ public class decode {
 
 
     public static void main(String[] args) {
-        double[][] y0 = generateY0(3);
+        double[][] y0 = generateY0(8);
         System.out.println("");
 
-        double[][] y1 = generateY1(3);
+        double[][] y1 = generateY1(8);
         System.out.println("");
 
         double[][] y = createY(y0, y1);
 
-        double[][] a = generateA0(3);
+        double[][] a = generateA0(8);
         System.out.println("");
 
         System.out.println("This is augmented matrix");
         double[][] augmented = combineIntoAugmented(a, y);
 
-        double[][] initialX = new double[3][1];
+        double[][] initialX = new double[8][1];
         initialX[0][0] = 0;
         initialX[1][0] = 0;
         initialX[2][0] = 0;
+        initialX[3][0] = 0;
+        initialX[4][0] = 0;
+        initialX[5][0] = 0;
+        initialX[6][0] = 0;
+        initialX[7][0] = 0;
+
 
         System.out.println("");
         System.out.println("Begin Decoding");
 
 
-        decode(augmented, initialX, 0.0001);
+        decodeJacobi(augmented, initialX, 0.00000001);
+
+        //decodeGauss(augmented, initialX, 0.00000001);
 
     }
 
