@@ -3,6 +3,11 @@ import java.util.Arrays;
 
 public class gauss_seidel {
 
+    private static int iteration;
+    public gauss_seidel() {
+        iteration = 0;
+    }
+
     // finds b matrix
     // input is a nx(n+1) matrix
     private static double[][] findB(double[][] matrix) {
@@ -247,12 +252,62 @@ public class gauss_seidel {
     }
 
     // returns X of k+1 when you do (L+D)X = (-U)(X) + b
-    public static double[][] returnX(double[][] matrix, double[][] x) {
-        double[][] lAndD = combineLowerAndDiagonal(matrix);
-        double[][] r = combineUpperXandB(matrix, x);
-        double[][] finalX = gaussElimination(lAndD, r);
+    public static double[][] returnNewX(double[][] matrix, double[][] x, double tol) {
+        double error = 100;
+        double[][] finalX = new double[x.length][1];
+        while(error >= tol && iteration < 100) {
+            double[][] temp = x;
+            double[][] lAndD = combineLowerAndDiagonal(matrix);
+            double[][] r = combineUpperXandB(matrix, x);
+            finalX = gaussElimination(lAndD, r);
+
+            double[][] result = matrixSubtract(finalX, temp);
+            double mag = findMagnitude(result);
+
+            error = mag;
+            iteration++;
+            System.out.println(iteration);
+            x = finalX;
+        }
+        if (iteration == 100) {
+            throw new IllegalArgumentException("Does not converge to tolerance");
+        }
+
         return finalX;
     }
+
+
+    private static double findMagnitude(double[][] a) {
+        double sum = 0;
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[0].length; j++) {
+                sum += (a[i][j] * a[i][j]);
+            }
+        }
+        return Math.sqrt(sum);
+    }
+
+
+    public static double[][] matrixSubtract(double[][] A, double[][] B) {
+        double[][] C = new double[A.length][A[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                C[i][j] = A[i][j] - B[i][j];
+            }
+        }
+        return C;
+    }
+
+
+
+
+
+
+    //returns the number of iterations needed for gauss seidel
+    public int getIteration() {
+        return iteration;
+    }
+
 
 
 
@@ -265,36 +320,53 @@ public class gauss_seidel {
         }
     }
 
+    public static void printStringMatrix(String[][] matrix) {
+        for (String[] v : matrix) {
+            System.out.println(Arrays.toString(v));
+        }
+    }
+
+
+
+
+
     public static void main(String[] args) {
 
+        double tol = 0.00000001;
+
         double[][] initialX = new double[3][1];
-        initialX[0][0] = 1;
-        initialX[1][0] = 1;
-        initialX[2][0] = 1;
+        initialX[0][0] = 0;
+        initialX[1][0] = 0;
+        initialX[2][0] = 0;
 
 
         double[][] test = new double[3][4];
-        test[0][0] = 1;
-        test[0][1] = 0;
-        test[0][2] = 0;
+        test[0][0] = 3;
+        test[0][1] = -1;
+        test[0][2] = 1;
         test[0][3] = 1;
 
-        test[1][0] = 0;
-        test[1][1] = 1;
-        test[1][2] = 0;
-        test[1][3] = 1;
+        test[1][0] = 3;
+        test[1][1] = 6;
+        test[1][2] = 2;
+        test[1][3] = 0;
 
-        test[2][0] = 0;
-        test[2][1] = 0;
-        test[2][2] = 1;
-        test[2][3] = 1;
+        test[2][0] = 3;
+        test[2][1] = 3;
+        test[2][2] = 7;
+        test[2][3] = 4;
 
 
 //        System.out.println("This is test matrix");
 //        printMatrix(test);
 //        System.out.println("");
 
-        double[][] e = returnX(test, initialX);
+        double[][] e = returnNewX(test, initialX, tol);
+
+
+
+
 
     }
 }
+

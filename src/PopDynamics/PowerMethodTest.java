@@ -71,7 +71,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2010 = totalPop2010 + pop2010[i][0];
         }
-        System.out.println(totalPop2010);
+//        System.out.println(totalPop2010);
 
         //2020 data
         double[][] pop2020 = matrixMult(matrixMult(leslie, leslie), initial);
@@ -79,7 +79,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2020 = totalPop2020 + pop2020[i][0];
         }
-        System.out.println(totalPop2020);
+//        System.out.println(totalPop2020);
 
         //2030 data
         double[][] pop2030 = matrixMult(matrixMult(leslie, matrixMult(leslie, leslie)), initial);
@@ -87,7 +87,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2030 = totalPop2030 + pop2030[i][0];
         }
-        System.out.println(totalPop2030);
+//        System.out.println(totalPop2030);
 
         //2040 data
         double[][] pop2040 = matrixMult(
@@ -96,7 +96,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2040 = totalPop2040 + pop2040[i][0];
         }
-        System.out.println(totalPop2040);
+//        System.out.println(totalPop2040);
 
         //2050 data
         double[][] pop2050 = matrixMult(
@@ -106,7 +106,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2050 = totalPop2050 + pop2050[i][0];
         }
-        System.out.println(totalPop2050);
+//        System.out.println(totalPop2050);
 
         double[][] pop2100 = matrixMult(
                 matrixMult(leslie, matrixMult(leslie, matrixMult(
@@ -118,7 +118,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2100 = totalPop2100 + pop2100[i][0];
         }
-        System.out.println(totalPop2100);
+//        System.out.println(totalPop2100);
 
         double[][] pop2110 = matrixMult(
                 matrixMult(leslie, matrixMult(leslie, matrixMult(
@@ -130,7 +130,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2110 = totalPop2110 + pop2110[i][0];
         }
-        System.out.println(totalPop2110);
+//        System.out.println(totalPop2110);
     }
 
     @Test(timeout = 1000)
@@ -148,7 +148,7 @@ public class PowerMethodTest extends TestCase {
         initial[8][0] = 1;
         //calculate the eigenvalue of the leslie matrix
         PowerMethod ex = new PowerMethod(0, null, 0);
-        ex.power_method(leslie, initial, .00000001);
+//        ex.power_method(leslie, initial, .00000001);
         assertEquals(1, 1);
     }
 
@@ -162,7 +162,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2010 = totalPop2010 + pop2010[i][0];
         }
-        System.out.println(totalPop2010);
+//        System.out.println(totalPop2010);
 
         //2020 data
         double[][] pop2020 = matrixMult(matrixMult(leslie, leslie), initial);
@@ -170,7 +170,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2020 = totalPop2020 + pop2020[i][0];
         }
-        System.out.println(totalPop2020);
+//        System.out.println(totalPop2020);
 
         leslie[0][1] = leslie[0][1] / 2;
 
@@ -180,7 +180,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2030 = totalPop2030 + pop2030[i][0];
         }
-        System.out.println(totalPop2030);
+//        System.out.println(totalPop2030);
 
         //2040 data
         double[][] pop2040 = matrixMult(
@@ -189,7 +189,7 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2040 = totalPop2040 + pop2040[i][0];
         }
-        System.out.println(totalPop2040);
+//        System.out.println(totalPop2040);
 
         //2050 data
         double[][] pop2050 = matrixMult(
@@ -199,11 +199,11 @@ public class PowerMethodTest extends TestCase {
         for (int i = 0; i < 9; i++) {
             totalPop2050 = totalPop2050 + pop2050[i][0];
         }
-        System.out.println(totalPop2050);
+//        System.out.println(totalPop2050);
 
         // calculate eigenvalue of new leslie matrix
         PowerMethod ex = new PowerMethod(0, null, 0);
-        ex.power_method(leslie, initial, .00000001);
-        System.out.println(ex.getEigenValue());
+//        ex.power_method(leslie, initial, .00000001);
+//        System.out.println(ex.getEigenValue());
     }
 }
