@@ -1,5 +1,7 @@
 package ConvolutionalCodes;
 
+import General.Ops;
+
 import java.util.Arrays;
 import java.util.Random;
 
@@ -17,13 +19,6 @@ public class decode {
             System.out.println(Arrays.toString(v));
         }
     }
-
-    public static void printMatrix(int[][] matrix) {
-        for (int[] v : matrix) {
-            System.out.println(Arrays.toString(v));
-        }
-    }
-
 
     //This generates a n x n matrix for A0
     private static double[][] generateA0(int size) {
@@ -73,9 +68,7 @@ public class decode {
         double[][] y0 = new double[length][1];
         Random rand = new Random();
         for (int i = 0; i < length; i++) {
-            for (int j = 0; j < 1; j++) {
-                y0[i][j] = rand.nextInt(2);
-            }
+            y0[i][0] = rand.nextInt(2);
         }
         printMatrix(y0);
         return y0;
@@ -86,9 +79,7 @@ public class decode {
         double[][] y1 = new double[length][1];
         Random rand = new Random();
         for (int i = 0; i < length; i++) {
-            for (int j = 0; j < 1; j++) {
-                y1[i][j] = rand.nextInt(2);
-            }
+            y1[i][0] = rand.nextInt(2);
         }
         printMatrix(y1);
         return y1;
@@ -107,16 +98,10 @@ public class decode {
     }
 
    private static double[][] combineIntoAugmented(double[][] a, double[][] y) {
-       double[][] aug = new double[a.length][a[0].length + 1];
-
-       for (int i = 0; i < a.length; i++) {
-           for (int j = 0; j < a[0].length; j++) {
-               aug[i][j] = a[i][j];
-           }
-       }
+       double[][] aug = Ops.deepCopy(a);
 
        for (int k = 0; k < y.length; k++) {
-           aug[k][aug[0].length -1 ] = y[k][0];
+           aug[k][aug[0].length - 1 ] = y[k][0];
        }
        printMatrix(aug);
        return aug;
@@ -183,7 +168,7 @@ public class decode {
             System.out.println("This is combined");
             double[][] combinedAandY0 = combineIntoAugmented(a, y0);
 
-            double[][] finalXJacobi = jac.returnNewX(combinedAandY0, guess, tol);
+            double[][] finalXJacobi = jacobi.returnNewX(combinedAandY0, guess, tol);
 
 
             double[][] jacobi = reduce3spots(finalXJacobi);
@@ -208,7 +193,7 @@ public class decode {
             System.out.println("This is combined");
             double[][] combinedAandY1 = combineIntoAugmented(a, y1);
 
-            double[][] finalXJacobi = jac.returnNewX(combinedAandY1, guess, tol);
+            double[][] finalXJacobi = jacobi.returnNewX(combinedAandY1, guess, tol);
             double[][] jacobi = reduce3spots(finalXJacobi);
 
 
@@ -245,12 +230,10 @@ public class decode {
             double[][] combinedAandY0 = combineIntoAugmented(a, y0);
 
 
-            double[][] finalXGauss = gs.returnNewX(combinedAandY0, guess, tol);
+            double[][] finalXGauss = gauss_seidel.returnNewX(combinedAandY0, guess, tol);
 
 
-            double[][] gaussSeidel = reduce3spots(finalXGauss);
-
-            return gaussSeidel;
+            return reduce3spots(finalXGauss);
 
         } else if (checkifA1(a)) {
             System.out.println("Matrix is A1");
@@ -263,9 +246,8 @@ public class decode {
             double[][] combinedAandY1 = combineIntoAugmented(a, y1);
 
 
-            double[][] finalXGauss = gs.returnNewX(combinedAandY1, guess, tol);
-            double[][] gaussSeidel = reduce3spots(finalXGauss);
-            return gaussSeidel;
+            double[][] finalXGauss = gauss_seidel.returnNewX(combinedAandY1, guess, tol);
+            return reduce3spots(finalXGauss);
 
 
         } else {

@@ -176,7 +176,7 @@ public class Ops {
 
         double[] x_ = new double[b_.length];
 
-        for (int row = numRows - 1; row >=0; row--) {
+        for (int row = numRows - 1; row >= 0; row--) {
 
             //use previous vals//
             double known = 0.0;
