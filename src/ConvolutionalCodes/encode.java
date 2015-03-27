@@ -160,8 +160,11 @@ public class encode {
         Scanner scan = new Scanner(System.in);
         System.out.println("Type in a number for length of x");
         int length = scan.nextInt();
-        
+
         findY(length);
-	}	
-	
+	}
+
+
+
+
 }
