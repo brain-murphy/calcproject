@@ -188,10 +188,17 @@ public class decode {
 
             double[][] jacobi = reduce3spots(finalXJacobi);
 
-            System.out.println("This is final answer");
+            System.out.println("This is Jacobi");
             printMatrix(jacobi);
 
-            return jacobi;
+
+
+            double[][] answer = convertIntoBinary(jacobi);
+
+            System.out.println("This is final answer");
+            printMatrix(answer);
+
+            return answer;
         } else if (checkifA1(a)) {
             System.out.println("Matrix is A1");
             double[][] y1 = decomposeIntoY1(y);
@@ -203,7 +210,18 @@ public class decode {
 
             double[][] finalXJacobi = jac.returnNewX(combinedAandY1, guess, tol);
             double[][] jacobi = reduce3spots(finalXJacobi);
-            return jacobi;
+
+
+            System.out.println("This is Jacobi");
+            printMatrix(jacobi);
+
+
+            double[][] answer = convertIntoBinary(jacobi);
+
+            System.out.println("This is final answer");
+            printMatrix(answer);
+
+            return answer;
 
         } else {
             throw new IllegalArgumentException("Matrix needs to be A0 or A1. It is not in the right format");
@@ -234,7 +252,6 @@ public class decode {
 
             return gaussSeidel;
 
-//          return finalAnswer;
         } else if (checkifA1(a)) {
             System.out.println("Matrix is A1");
             double[][] y1 = decomposeIntoY1(y);
@@ -282,6 +299,17 @@ public class decode {
         return (sum == 0);
     }
 
+    private static double[][] convertIntoBinary(double[][] matrix) {
+        double[][] a = new double[matrix.length][1];
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i][0] % 2 != 0) {
+                a[i][0] = 1;
+            } else {
+                a[i][0] = 0;
+            }
+        }
+        return a;
+    }
 
     // returns (n - 3) x 1
     private static double[][] reduce3spots(double[][] matrix) {
@@ -291,31 +319,6 @@ public class decode {
         }
         return result;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
