@@ -7,6 +7,8 @@ import java.util.Scanner;
  *Created bu Yen Huang
 */ 
 
+
+//goes from X to Y
 public class encode {
 
 	// Add 3 more slots to x array 

@@ -255,7 +255,7 @@ public class gauss_seidel {
     public static double[][] returnNewX(double[][] matrix, double[][] x, double tol) {
         double error = 100;
         double[][] finalX = new double[x.length][1];
-        while(error >= tol) {
+        while(error >= tol && iteration < 100) {
             double[][] temp = x;
             double[][] lAndD = combineLowerAndDiagonal(matrix);
             double[][] r = combineUpperXandB(matrix, x);
@@ -268,6 +268,9 @@ public class gauss_seidel {
             iteration++;
             System.out.println(iteration);
             x = finalX;
+        }
+        if (iteration == 100) {
+            throw new IllegalArgumentException("Does not converge to tolerance");
         }
 
         return finalX;

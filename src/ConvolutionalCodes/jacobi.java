@@ -264,7 +264,7 @@ public class jacobi {
         int count = 0;
         double error = 100;
         double[][] finalX = new double[x.length][1];
-        while(error >= tol) {
+        while(error >= tol && iteration < 100) {
             double[][] temp = x;
             double[][] diag = findDiagonal(matrix);
             double[][] r = combineUpperXandLower(matrix, x);
@@ -277,6 +277,9 @@ public class jacobi {
             count++;
             System.out.println(count);
             x = finalX;
+        }
+        if (iteration == 100) {
+            throw new IllegalArgumentException("Does not converge to tolerance");
         }
 
         return finalX;
