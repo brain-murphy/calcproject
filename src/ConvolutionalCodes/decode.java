@@ -98,10 +98,15 @@ public class decode {
     }
 
    private static double[][] combineIntoAugmented(double[][] a, double[][] y) {
-       double[][] aug = Ops.deepCopy(a);
+       double[][] aug = new double[a.length][a[0].length + 1];
+       for (int i = 0; i < a.length; i++) {
+           for (int j = 0; j < a[0].length; j++) {
+               aug[i][j] = a[i][j];
+           }
+       }
 
        for (int k = 0; k < y.length; k++) {
-           aug[k][aug[0].length - 1 ] = y[k][0];
+           aug[k][aug[0].length -1 ] = y[k][0];
        }
        printMatrix(aug);
        return aug;
@@ -158,9 +163,11 @@ public class decode {
         double[][] a = decomposeIntoA(matrix);
         double[][] y = decomposeIntoB(matrix);
 
+
         if (checkifA0(a)) {
             System.out.println("Matrix is A0");
             double[][] y0 = decomposeIntoY0(y);
+
 
 ;
             jacobi jac = new jacobi();
@@ -218,6 +225,8 @@ public class decode {
     public static double[][] decodeGauss(double[][] matrix, double[][] guess, double tol) {
         double[][] a = decomposeIntoA(matrix);
         double[][] y = decomposeIntoB(matrix);
+
+
 
         if (checkifA0(a)) {
             System.out.println("Matrix is A0");
