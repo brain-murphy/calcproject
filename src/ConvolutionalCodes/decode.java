@@ -4,6 +4,7 @@ import General.Ops;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
 * Created by yenhuang on 3/27/15.
@@ -12,7 +13,40 @@ import java.util.Random;
 // goes from Y to X
 public class decode {
 
-    private static int iteration = 0;
+
+
+    private double[][] initialX;
+
+    private int lengthOfY;
+
+    public decode(int lengthOfY, double[][] initialX) {
+        this.lengthOfY = lengthOfY;
+        this.initialX = initialX;
+
+        double[][] a = generateA0(lengthOfY);
+        double[][] y0 = generateY0(lengthOfY);
+        double[][] y1 = generateY1(lengthOfY);
+        double[][] y = createY(y0, y1);
+
+
+        double[][] augmented = combineIntoAugmented(a, y);
+
+        System.out.println("");
+        System.out.println("Begin Decoding Jacobi");
+        decodeJacobi(augmented, initialX, 0.00000001);
+
+
+        System.out.println("");
+        System.out.println("Begin Decoding Gauss-Seidel");
+        decodeGauss(augmented, initialX, 0.00000001);
+
+
+
+    }
+
+
+
+
 
     public static void printMatrix(double[][] matrix) {
         for (double[] v : matrix) {
@@ -66,9 +100,21 @@ public class decode {
 
     private static double[][] generateY0(int length) {
         double[][] y0 = new double[length][1];
-        Random rand = new Random();
+
+
+        Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < length; i++) {
-            y0[i][0] = rand.nextInt(2);
+            System.out.println("What do you want the values of Y0 to be at index " + i +  "?");
+            int num = scanner.nextInt();
+            if (num == 0 || num == 1) {
+                y0[i][0] = num;
+            } else {
+                throw new IllegalArgumentException("Input needs to be 1 or 0");
+            }
+
+
+
+
         }
 
         return y0;
@@ -77,11 +123,17 @@ public class decode {
 
     private static double[][] generateY1(int length) {
         double[][] y1 = new double[length][1];
-        Random rand = new Random();
+        Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < length; i++) {
-            y1[i][0] = rand.nextInt(2);
-        }
+            System.out.println("What do you want the values of Y1 to be at index " + i +  "?");
+            int num = scanner.nextInt();
+            if (num == 0 || num == 1) {
+                y1[i][0] = num;
+            } else {
+                throw new IllegalArgumentException("Input needs to be 1 or 0");
+            }
 
+        }
         return y1;
 
     }
@@ -92,7 +144,7 @@ public class decode {
         for (int i = 0; i < y0.length; i++) {
             arr[i][0] = (int)((y0[i][0] * 10) + y1[i][0]);
         }
-        printMatrix(arr);
+//        printMatrix(arr);
         return arr;
 
     }
@@ -325,38 +377,31 @@ public class decode {
 
 
     public static void main(String[] args) {
-        double[][] y0 = generateY0(8);
-        System.out.println("");
-
-        double[][] y1 = generateY1(8);
-        System.out.println("");
-
-        double[][] y = createY(y0, y1);
-
-        double[][] a = generateA0(8);
-        System.out.println("");
-
-        double[][] augmented = combineIntoAugmented(a, y);
-
-        double[][] initialX = new double[8][1];
-        initialX[0][0] = 0;
-        initialX[1][0] = 0;
-        initialX[2][0] = 0;
-        initialX[3][0] = 0;
-        initialX[4][0] = 0;
-        initialX[5][0] = 0;
-        initialX[6][0] = 0;
-        initialX[7][0] = 0;
 
 
-        System.out.println("");
-        System.out.println("Begin Decoding Jacobi");
-        decodeJacobi(augmented, initialX, 0.00000001);
+        double[][] initialGuess = new double[17][1];
+        initialGuess[0][0] = 0;
+        initialGuess[1][0] = 0;
+        initialGuess[2][0] = 0;
+        initialGuess[3][0] = 0;
+        initialGuess[4][0] = 0;
+        initialGuess[5][0] = 0;
+        initialGuess[6][0] = 0;
+        initialGuess[7][0] = 0;
+        initialGuess[8][0] = 0;
+        initialGuess[9][0] = 0;
+        initialGuess[10][0] = 1;
+        initialGuess[11][0] = 1;
+        initialGuess[12][0] = 1;
+        initialGuess[13][0] = 1;
+        initialGuess[14][0] = 1;
+        initialGuess[15][0] = 1;
+        initialGuess[16][0] = 1;
 
 
-        System.out.println("");
-        System.out.println("Begin Decoding Gauss-Seidel");
-        decodeGauss(augmented, initialX, 0.00000001);
+        decode dec = new decode(17, initialGuess);
+
+
 
     }
 
