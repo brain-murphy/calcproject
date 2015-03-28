@@ -113,8 +113,6 @@ public class decode {
             }
 
 
-
-
         }
 
         return y0;
@@ -124,6 +122,11 @@ public class decode {
     private static double[][] generateY1(int length) {
         double[][] y1 = new double[length][1];
         Scanner scanner = new Scanner(System.in);
+
+
+
+
+
         for (int i = 0; i < length; i++) {
             System.out.println("What do you want the values of Y1 to be at index " + i +  "?");
             int num = scanner.nextInt();
@@ -132,6 +135,7 @@ public class decode {
             } else {
                 throw new IllegalArgumentException("Input needs to be 1 or 0");
             }
+
 
         }
         return y1;
@@ -191,8 +195,8 @@ public class decode {
         for (int i = 0; i < y.length; i++) {
             y0[i][0] = Math.floor(y[i][0] / 10);
         }
-        System.out.println("This is Y0");
-        printMatrix(y0);
+//        System.out.println("This is Y0");
+//        printMatrix(y0);
         return y0;
 
     }
@@ -203,8 +207,8 @@ public class decode {
         for (int i = 0; i < y.length; i++) {
             y1[i][0] = y[i][0] % 10;
         }
-        System.out.println("This is Y1");
-        printMatrix(y1);
+//        System.out.println("This is Y1");
+//        printMatrix(y1);
         return y1;
 
     }
@@ -399,7 +403,9 @@ public class decode {
         initialGuess[16][0] = 1;
 
 
-        decode dec = new decode(17, initialGuess);
+
+
+        decode dec = new decode(initialGuess.length, initialGuess);
 
 
 
