@@ -278,7 +278,7 @@ public class jacobi {
             System.out.println(count);
             x = finalX;
         }
-        if (iteration == 100) {
+        if (iteration >= 100) {
             throw new IllegalArgumentException("Does not converge to tolerance");
         }
 

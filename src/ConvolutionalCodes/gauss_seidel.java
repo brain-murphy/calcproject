@@ -145,6 +145,7 @@ public class gauss_seidel {
         double[][] upper = findUpper(matrix);
 
         double[][] b = findB(matrix);
+
         double[][] mult = multiplyTwoX(upper, initialX);
         double[][] negatedMult = negateMatrix(mult);
 
@@ -269,7 +270,7 @@ public class gauss_seidel {
             System.out.println(iteration);
             x = finalX;
         }
-        if (iteration == 100) {
+        if (iteration >= 100) {
             throw new IllegalArgumentException("Does not converge to tolerance");
         }
 
@@ -362,6 +363,8 @@ public class gauss_seidel {
 //        System.out.println("");
 
         double[][] e = returnNewX(test, initialX, tol);
+
+
 
 
 
