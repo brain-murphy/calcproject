@@ -4,9 +4,32 @@ import java.util.Arrays;
 public class gauss_seidel {
 
     private static int iteration;
-    public gauss_seidel() {
+    private double[][] firstX;
+    private double tolerance;
+    private double[][] gaussMatrix;
+    private static double[][] answer;
+
+
+
+
+
+    public gauss_seidel(double[][] gaussMatrix, double[][] firstX, double tolerance) {
+        this.gaussMatrix = gaussMatrix;
+        this.firstX = firstX;
+        this.tolerance = tolerance;
         iteration = 0;
+
+        answer = returnNewX(gaussMatrix, firstX, tolerance);
+
+
+
     }
+
+    public double[][] getAnswer() {
+        return answer;
+    }
+
+
 
     // finds b matrix
     // input is a nx(n+1) matrix
@@ -220,7 +243,6 @@ public class gauss_seidel {
 
 
         }
-//        printMatrix(combined);
 
         double[][] second = findB(combined);
         double[][] first = findA(combined);
@@ -229,7 +251,7 @@ public class gauss_seidel {
         //backward substitution
         double[][] result = backSubstitution_up(first, second);
 
-        printMatrix(result);
+//        printMatrix(result);
 
         return result;
     }
@@ -267,7 +289,7 @@ public class gauss_seidel {
 
             error = mag;
             iteration++;
-            System.out.println(iteration);
+
             x = finalX;
         }
         if (iteration >= 100) {
@@ -305,7 +327,7 @@ public class gauss_seidel {
 
 
     //returns the number of iterations needed for gauss seidel
-    public int getIteration() {
+    public static int getIteration() {
         return iteration;
     }
 
@@ -357,18 +379,9 @@ public class gauss_seidel {
         test[2][2] = 7;
         test[2][3] = 4;
 
+        gauss_seidel g = new gauss_seidel(test,initialX,0.00000001);
 
-//        System.out.println("This is test matrix");
-//        printMatrix(test);
-//        System.out.println("");
-
-        double[][] e = returnNewX(test, initialX, tol);
-
-
-
-
-
-
+        System.out.println("Iteration: " + getIteration());
 
     }
 }

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * Created by yenhuang on 3/27/15.
- */
+* Created by yenhuang on 3/27/15.
+*/
 
 // goes from Y to X
 public class decode {
@@ -70,7 +70,7 @@ public class decode {
         for (int i = 0; i < length; i++) {
             y0[i][0] = rand.nextInt(2);
         }
-        printMatrix(y0);
+
         return y0;
 
     }
@@ -81,7 +81,7 @@ public class decode {
         for (int i = 0; i < length; i++) {
             y1[i][0] = rand.nextInt(2);
         }
-        printMatrix(y1);
+
         return y1;
 
     }
@@ -108,7 +108,7 @@ public class decode {
        for (int k = 0; k < y.length; k++) {
            aug[k][aug[0].length -1 ] = y[k][0];
        }
-       printMatrix(aug);
+//       printMatrix(aug);
        return aug;
    }
 
@@ -120,7 +120,7 @@ public class decode {
                 a[i][j] = matrix[i][j];
             }
         }
-        printMatrix(a);
+//        printMatrix(a);
         return a;
     }
 
@@ -165,53 +165,50 @@ public class decode {
 
 
         if (checkifA0(a)) {
-            System.out.println("Matrix is A0");
+
             double[][] y0 = decomposeIntoY0(y);
 
 
-;
-            jacobi jac = new jacobi();
-
-            System.out.println("This is combined");
             double[][] combinedAandY0 = combineIntoAugmented(a, y0);
 
-            double[][] finalXJacobi = jacobi.returnNewX(combinedAandY0, guess, tol);
+
+            jacobi jac = new jacobi(combinedAandY0,guess,tol);
+
+
+            double[][] finalXJacobi = jac.getAnswer();
 
 
             double[][] jacobi = reduce3spots(finalXJacobi);
 
-            System.out.println("This is Jacobi");
-            printMatrix(jacobi);
-
-
 
             double[][] answer = convertIntoBinary(jacobi);
 
-            System.out.println("This is final answer");
+            System.out.println("This is final answer for Jacobi");
             printMatrix(answer);
+            System.out.println("Number of iteration for Jacobi: " + jac.getIteration());
 
             return answer;
         } else if (checkifA1(a)) {
-            System.out.println("Matrix is A1");
+
             double[][] y1 = decomposeIntoY1(y);
 
-            jacobi jac = new jacobi();
 
-            System.out.println("This is combined");
             double[][] combinedAandY1 = combineIntoAugmented(a, y1);
 
-            double[][] finalXJacobi = jacobi.returnNewX(combinedAandY1, guess, tol);
+
+            jacobi jac = new jacobi(combinedAandY1,guess,tol);
+
+
+
+            double[][] finalXJacobi = jac.getAnswer();
             double[][] jacobi = reduce3spots(finalXJacobi);
-
-
-            System.out.println("This is Jacobi");
-            printMatrix(jacobi);
 
 
             double[][] answer = convertIntoBinary(jacobi);
 
-            System.out.println("This is final answer");
+            System.out.println("This is final answer for Jacobi");
             printMatrix(answer);
+            System.out.println("Number of iteration for Jacobi: " + jac.getIteration());
 
             return answer;
 
@@ -226,37 +223,49 @@ public class decode {
         double[][] a = decomposeIntoA(matrix);
         double[][] y = decomposeIntoB(matrix);
 
-
-
         if (checkifA0(a)) {
-            System.out.println("Matrix is A0");
+
             double[][] y0 = decomposeIntoY0(y);
 
-            gauss_seidel gs = new gauss_seidel();
-            jacobi jac = new jacobi();
 
-            System.out.println("This is combined");
             double[][] combinedAandY0 = combineIntoAugmented(a, y0);
 
+            gauss_seidel gs = new gauss_seidel(combinedAandY0, guess, tol);
 
-            double[][] finalXGauss = gauss_seidel.returnNewX(combinedAandY0, guess, tol);
+            double[][] finalXGauss = gs.getAnswer();
+
+            double[][] gauss = reduce3spots(finalXGauss);
 
 
-            return reduce3spots(finalXGauss);
+            double[][] answer = convertIntoBinary(gauss);
+
+            System.out.println("This is final answer for Gauss-Seidel");
+            printMatrix(answer);
+            System.out.println("Number of iteration for Gauss-Seidel: " + gs.getIteration());
+
+            return answer;
 
         } else if (checkifA1(a)) {
-            System.out.println("Matrix is A1");
+
             double[][] y1 = decomposeIntoY1(y);
 
-            gauss_seidel gs = new gauss_seidel();
 
-
-            System.out.println("This is combined");
             double[][] combinedAandY1 = combineIntoAugmented(a, y1);
 
+            gauss_seidel gs = new gauss_seidel(combinedAandY1, guess, tol);
 
-            double[][] finalXGauss = gauss_seidel.returnNewX(combinedAandY1, guess, tol);
-            return reduce3spots(finalXGauss);
+
+            double[][] finalXGauss = gs.getAnswer();
+            double[][] gauss = reduce3spots(finalXGauss);
+
+
+            double[][] answer = convertIntoBinary(gauss);
+
+            System.out.println("This is final answer for Gauss-Seidel");
+            printMatrix(answer);
+            System.out.println("Number of iteration for Gauss-Seidel: " + gs.getIteration());
+
+            return answer;
 
 
         } else {
@@ -327,7 +336,6 @@ public class decode {
         double[][] a = generateA0(8);
         System.out.println("");
 
-        System.out.println("This is augmented matrix");
         double[][] augmented = combineIntoAugmented(a, y);
 
         double[][] initialX = new double[8][1];
@@ -342,12 +350,13 @@ public class decode {
 
 
         System.out.println("");
-        System.out.println("Begin Decoding");
-
-
+        System.out.println("Begin Decoding Jacobi");
         decodeJacobi(augmented, initialX, 0.00000001);
 
-        //decodeGauss(augmented, initialX, 0.00000001);
+
+        System.out.println("");
+        System.out.println("Begin Decoding Gauss-Seidel");
+        decodeGauss(augmented, initialX, 0.00000001);
 
     }
 

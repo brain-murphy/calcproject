@@ -5,9 +5,26 @@ import java.util.Arrays;
 public class jacobi {
 
     private static int iteration;
+    private double[][] firstX;
+    private double tolerance;
+    private static double[][] jacobiMatrix;
 
-    public jacobi() {
+    private double[][] answer;
+
+
+    public jacobi(double[][] jacobiMatrixMatrix, double[][] firstX, double tolerance) {
+        this.jacobiMatrix = jacobiMatrixMatrix;
+        this.firstX = firstX;
+        this.tolerance = tolerance;
         iteration = 0;
+
+        answer = returnNewX(jacobiMatrixMatrix, firstX, tolerance);
+
+    }
+
+
+    public double[][] getAnswer() {
+        return answer;
     }
 
     // finds b matrix
@@ -234,7 +251,7 @@ public class jacobi {
         //backward substitution
         double[][] result = backSubstitution_up(first, second);
 
-        printMatrix(result);
+//        printMatrix(result);
 
         return result;
     }
@@ -274,8 +291,8 @@ public class jacobi {
             double mag = findMagnitude(result);
 
             error = mag;
-            count++;
-            System.out.println(count);
+            iteration++;
+
             x = finalX;
         }
         if (iteration >= 100) {
@@ -312,7 +329,7 @@ public class jacobi {
 
 
 
-    public int getIteration() {
+    public static int getIteration() {
         return iteration;
     }
 
@@ -358,12 +375,9 @@ public class jacobi {
         test[2][3] = 4;
 
 
-//        System.out.println("This is test matrix");
-//        printMatrix(test);
-//        System.out.println("");
 
-        double[][] e = returnNewX(test, initialX, tol);
-
+        jacobi j = new jacobi(test,initialX, 0.00000001);
+        System.out.println("Iteration: " + getIteration());
 
     }
 

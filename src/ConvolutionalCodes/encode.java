@@ -1,7 +1,7 @@
 package ConvolutionalCodes;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Scanner;
+
 
 /**
  *Created bu Yen Huang
