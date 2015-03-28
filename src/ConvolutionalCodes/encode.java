@@ -8,8 +8,15 @@ import java.util.Scanner;
 */ 
 
 
-//goes from X to Y
+
 public class encode {
+
+    private int inputLength;
+
+    public encode(int inputlength) {
+        this.inputLength = inputlength;
+        findY(inputlength);
+    }
 
 	// Add 3 more slots to x array 
 	 private static int[][] addThreeToX(int[][] matrix) {
@@ -113,15 +120,11 @@ public class encode {
 
 		int[][] a0 = generateA0(x);
 		int[][] y0 = matrixMultiply(a0, x);
-		// System.out.println("This is Y0");
-		// printMatrix(y0);
-		// System.out.println("");
+
 
 		int[][] a1 = generateA1(x);
 		int[][] y1 = matrixMultiply(a1, x);
-		// System.out.println("This is Y1");
-		// printMatrix(y1);
-		// System.out.println("");
+
 
 		String[][] y = new String[len + 3][1];
 		StringBuilder sb = new StringBuilder();
@@ -140,10 +143,6 @@ public class encode {
 		return y;
 	}
 
-
-
-
-
 	public static void printMatrix(int[][] matrix) {
         for (int[] v : matrix) {
             System.out.println(Arrays.toString(v));
@@ -156,17 +155,7 @@ public class encode {
         }
     }
 
-
 	public static void main(String[] args) {
-
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Type in a number for length of x");
-        int length = scan.nextInt();
-
-        findY(length);
+        encode e = new encode(15);
 	}
-
-
-
-
 }
