@@ -357,6 +357,7 @@ public class gauss_seidel {
 
         double tol = 0.00000001;
 
+
         double[][] initialX = new double[3][1];
         initialX[0][0] = 0;
         initialX[1][0] = 0;
