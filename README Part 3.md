@@ -1,4 +1,5 @@
 Readme
+
 First of all, be sure that everything has been compiled from the README for part 1.
 
 To run the power method, open the RunPowerMethod java class and initialize the initial
