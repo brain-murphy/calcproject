@@ -5,7 +5,7 @@ import General.Ops;
 /**
  * Created by Brian on 3/31/2015.
  */
-public class qr_fact_houseH {
+public class qr_fact_househ {
     public static void main(String[] args) {
 
         double[][] matrix = Ops.parseMatrix();
