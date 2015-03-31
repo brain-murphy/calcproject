@@ -1,6 +1,9 @@
 # calcproject
 Georgia Tech Calculus 3 project, by Brian Murphy, Justin Joe, and Yen Huang
 
+Although the equivalent to these commands can be preformed on mac and linux, this file
+outlines the way to navigate the project using windows.
+
 ## Compilation
 
 In order to compile the project, navigate into the 'src' directory and run 
