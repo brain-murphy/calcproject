@@ -16,7 +16,10 @@ Urban Population Dynamics Analysis
 
 2.) What will the population distribution be in 2010? 2020? 2030? 2040? 2050? Calculate also the total population in those
 	years, and by what fraction the total population changed each year. 
-  
+
+
+   
+
 	To calculate these numbers, we raised the Leslie matrix to the n power, where n was the number 	of decades that
 	passed, and multiplied that matrix by the initial population vector, x.
 		x(n) = A^n * x(0), where x(0) is the initial population.
@@ -31,7 +34,7 @@ Urban Population Dynamics Analysis
 	might want to investigate the convergence of ||Ak ||.
 
 	The eigenvalue of the Leslie Matrix is 1.2886562.  This number tells you the percentage population growth that the
-    	Leslie matrix will eventually converge to given enough years.  We know this because, ||AÂ­k|| converges to this
+    	Leslie matrix will eventually converge to given enough years.  We know this because, ||AÂk|| converges to this
     	eigenvector and eigenvalue as k increases to infinity.  The population will continuously grow at a stable rate of
     	around 28.8%.  However, population would eventually get out of hand as the population increases and the population
     	growth continues to increase as well.
