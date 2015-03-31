@@ -50,7 +50,6 @@ public class LUFactorization {
         //stores all transformation matrixes//
         double[][][] Lmatrices = new double[numCols][numRows][numCols];
 
-
         //calculate all L matrices and reduce U//
         for (int col = 0; col < numCols; col++) {
 
@@ -83,6 +82,7 @@ public class LUFactorization {
                     Lmatrices[col][rowToKill][i] = Lmatrices[col][rowToKill][i]
                             - Lmatrices[col][topRowI][i] * multFactor;
                 }
+
             }
         }
 

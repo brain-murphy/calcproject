@@ -2,6 +2,10 @@ package General;
 
 import HilbertMatrix.HilbertOps;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Scanner;
+
 /**
  * Created by Brian on 3/21/2015.
  */
@@ -200,5 +204,24 @@ public class Ops {
         }
 
         return b_;
+    }
+
+    public static double[][] parseMatrix() {
+        Scanner in = new Scanner(System.in);
+        LinkedList<Double> elementList = new LinkedList<>();
+        while (in.hasNextDouble()) {
+            elementList.add(in.nextDouble());
+        }
+
+        int n = (int) Math.round(Math.sqrt(elementList.size()));
+
+        double[][] matrix = new double[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = elementList.get((i * n) + j);
+            }
+        }
+        return matrix;
     }
 }

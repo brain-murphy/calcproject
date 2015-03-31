@@ -15,6 +15,48 @@ This will compile the entire project; no additional compilation will be necessar
 
 ## Running
 
+Everything in this part of the project should be run from the src directory
+
+Input should be piped to file to ensure correct parsing. The conventions found in the example files a.dat and b.dat were followed
+In order to pipe input input in this manner, use the following commands:
+
+in order to use lu_fact:
+
+```
+\src>     java HilbertMatrix.lu_fact < example.dat
+
+```
+
+in order to use qr_fact_househ:
+
+```
+\src>     java HilbertMatrix.qr_fact_househ < example.dat
+
+```
+
+in order to use qr_fact_givens:
+
+```
+\src>     java HilbertMatrix.qr_fact_givens < example.dat
+
+```
+
+in order to use solve_lu_b:
+
+```
+\src>     java HilbertMatrix.solve_lu_b < example.dat
+
+```
+
+in order to use solve_qr_b:
+
+```
+\src>     java HilbertMatrix.solve_qr_b < example.dat
+
+```
+
+
+
 In order to run Hilbert matrix solving code for this portion of the project, navigate to the "src" directory and run 
 
 ```
