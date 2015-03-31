@@ -29,8 +29,17 @@ public class HilbertOps {
             double normDifferenceLU = norm(matrixSubtract(new double[][]{Hx_forLU},
                     matrixb));
 
-            System.out.println("============LU============");
-            System.out.println("x_sol: " + Arrays.toString(luSolution));
+            System.out.println("============LU============ n = " + i);
+            System.out.print("x_sol: [");
+            for (int dI = 0; dI < luSolution.length; dI++) {
+                System.out.print(luSolution[dI] + ", ");
+
+                if (dI % 3 == 0) {
+                    System.out.println();
+                    System.out.print("\t");
+                }
+            }
+            System.out.println("]");
             System.out.println("||LU - H|| = " + luFact.getError());
             System.out.println("||Hx - b|| = " + normDifferenceLU);
             System.out.println();
@@ -45,8 +54,17 @@ public class HilbertOps {
             double normDifferenceHH = norm(matrixSubtract(new double[][]{Hx_forHH},
                     matrixb));
 
-            System.out.println("======QR Householder=======");
-            System.out.println("x_sol: " + Arrays.toString(QRHHSolution));
+            System.out.println("======QR Householder======= n = " + i);
+            System.out.println("x_sol: [");
+            for (int dI = 0; dI < QRHHSolution.length; dI++) {
+                System.out.print(QRHHSolution[dI] + ", ");
+
+                if (dI % 3 == 0) {
+                    System.out.println();
+                    System.out.print("\t");
+                }
+            }
+            System.out.println("]");
             System.out.println("||QR - H|| = " + QRHHFact.getError());
             System.out.println("||Hx - b|| = " + normDifferenceHH);
             System.out.println();
@@ -60,8 +78,17 @@ public class HilbertOps {
                     matrixb));
 
 
-            System.out.println("=========QR Givens=========");
-            System.out.println("x_sol: " + Arrays.toString(QRGSolution));
+            System.out.println("=========QR Givens========= n = " + i);
+            System.out.println("x_sol: [");
+            for (int dI = 0; dI < QRGSolution.length; dI++) {
+                System.out.print(QRGSolution[dI] + ", ");
+
+                if (dI % 3 == 0) {
+                    System.out.println();
+                    System.out.print("\t");
+                }
+            }
+            System.out.println("]");
             System.out.println("||QR - H|| = " + QRGFact.getError());
             System.out.println("||Hx - b|| = " + normDifferenceG);
             System.out.println();
