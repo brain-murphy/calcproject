@@ -15,6 +15,7 @@ In order to compile the project, navigate into the 'src' directory and run
 
 This will compile the entire project; no additional compilation will be necessary in order to run the individual parts of the project. 
 
+The project must be compiled using JDK 8.
 
 ## Running
 
