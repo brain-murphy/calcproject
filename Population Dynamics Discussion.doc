@@ -1,0 +1,23 @@
+Urban Population Dynamics Analysis
+
+1.) Interpret the data in the matrix, and discuss the social factors that influence those numbers.
+	The top row of the Leslie Matrix contains the fecundicity of each age group, or how likely they are to produce offspring.  Obviously, the ages where females are most likely to bear children will be around the late teens, upwards towards late forties which is exactly what the matrix shows.  The other values in the Leslie Matrix are the likelihood of survival for each age group.  In the first age group, shown by the first column, from ages 0-9, the survival rate is lower with a survival rate of .7.  This makes sense since there are many things that can go wrong during child birth and also since as babies are still developing, they are much more susceptible to disease and other issues.  The survival rate then increases to about .85-.9 during the ages of 10-50, as humans are reaching their peak physical form and are less likely to die from illness or injury.  However, as the ages increase from there, the likelihood of survival decreases and then nosedives to .40 at the 70-80 age group.  At these older ages, illnesses start to be more common, and even slight injuries or health issues could be fatal.
+
+2.) What will the population distribution be in 2010? 2020? 2030? 2040? 2050? Calculate also 		the total population in those years, and by what fraction the total population changed each year. 
+	  
+	To calculate these numbers, we raised the Leslie matrix to the n power, where n was the number 	of decades that passed, and multiplied that matrix by the initial population vector, x.
+		x(n) = A^n * x(0), where x(0) is the initial population.
+	To calculate the total population, we added up all numbers in the x vector which represented the 	population for each age group.  % increase in population was calculated by dividing the new 	population by the population from the previous decade.
+
+
+3.) Use the power method to calculate the largest eigenvalue of the Leslie matrix A. The iteration of the   power method should stop when you get 8 digits of accuracy. What does this tell you? Will the   population go to zero, become stable, or be unstable in the long run? Discuss carefully and     provide the mathematical arguments for your conclusion. You might want to investigate the   convergence of ||Ak ||.
+
+    The eigenvalue of the Leslie Matrix is 1.2886562.  This number tells you the percentage population growth that the Leslie matrix will eventually converge to given enough years.  We know this because, ||A­k|| converges to this eigenvector and eigenvalue as k increases to infinity.  The population will continuously grow at a stable rate of around 28.8%.  However, population would eventually get out of hand as the population increases and the population growth continues to increase as well.
+
+
+
+
+
+4.) Suppose we are able to decrease the birth rate of the second age group by half in 2020. What are the    predictions for 2030, 2040 and 2050? Calculate again the largest eigenvalue of A (to 8 digits of    accuracy) with your program and discuss its meaning regarding the population in the long run.
+
+    If we were to decrease birth rate in 2020, the populations in 2010 and 2020 would be the same.  However, the population in 2030 would drop to 1,767,974, 2040 would be 1,987,240, and 2050 would be 2,280,308.  The eigenvalue of the new Leslie matrix would be 1.167902832734512, which would mean the growth of the population would converge to around 16.78% per decade.
