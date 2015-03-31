@@ -5,6 +5,10 @@ import static General.Ops.*;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+/**
+ * Created by Justin Joe
+ */
+
 public class PowerMethodTest extends TestCase {
 
     private double[][] setUpLeslie() {
