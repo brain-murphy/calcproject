@@ -3,6 +3,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import java.util.ArrayList;
+
+
 public class gauss_seidel {
 
     private static int iteration;
@@ -351,32 +354,45 @@ public class gauss_seidel {
         }
     }
 
-    public static double[][] parseMatrix() {
-        Scanner in = new Scanner(System.in);
-        LinkedList<Double> elementList = new LinkedList<>();
-        while (in.hasNextDouble()) {
-            elementList.add(in.nextDouble());
+      public static double[][] parseMatrix() {
+       Scanner in  = new Scanner(System.in);
+
+        ArrayList<String[]> lines = new ArrayList<>();
+
+        while (in.hasNextLine()) {
+            lines.add(in.nextLine().trim().split(" "));
         }
 
-        int n = (int) Math.round(Math.sqrt(elementList.size()));
+        double[][] matrix = new double[lines.size()][lines.get(0).length - 1];
+        double[][] vector = new double[lines.size()][1];
 
-        double[][] matrix = new double[n][n+1];
-
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                matrix[i][j] = elementList.get((i * n) + j);
+        for (int i = 0; i < lines.size(); i++) {
+            for (int j = 0; j < lines.get(0).length; j++) {
+                if (j < matrix[0].length) {
+                    matrix[i][j] = Double.parseDouble(lines.get(i)[j]);
+                } else {
+                    vector[i][0] = Double.parseDouble(lines.get(i)[j]);
+                }
             }
         }
+        return combineIntoAugmented(matrix, vector);
 
-        for (int k = 0; k < matrix.length; k++) {
-            int l = n + 1;
-            matrix[k][matrix[0].length -1] = elementList.get(l);
-            l += n+2;
-
-        }
-        return matrix;
     }
+
+    private static double[][] combineIntoAugmented(double[][] a, double[][] y) {
+       double[][] aug = new double[a.length][a[0].length + 1];
+       for (int i = 0; i < a.length; i++) {
+           for (int j = 0; j < a[0].length; j++) {
+               aug[i][j] = a[i][j];
+           }
+       }
+
+       for (int k = 0; k < y.length; k++) {
+           aug[k][aug[0].length -1 ] = y[k][0];
+       }
+//       printMatrix(aug);
+       return aug;
+   }
 
 
 
@@ -386,10 +402,11 @@ public class gauss_seidel {
         double tol = 0.00000001;
 
 
-        double[][] initialX = new double[3][1];
-//        initialX[0][0] = 0;
-//        initialX[1][0] = 0;
-//        initialX[2][0] = 0;
+        double[][] initialX = new double[4][1];
+        initialX[0][0] = 0;
+        initialX[1][0] = 0;
+        initialX[2][0] = 0;
+        initialX[3][0] = 0;
 
 
         double[][] test = parseMatrix();
