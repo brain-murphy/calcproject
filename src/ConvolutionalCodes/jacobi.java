@@ -3,6 +3,7 @@ package ConvolutionalCodes;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class jacobi {
 
@@ -372,7 +373,7 @@ public class jacobi {
                 }
             }
         }
-        return combineIntoAugmented(matrix, vector)
+        return combineIntoAugmented(matrix, vector);
 
     }
 
