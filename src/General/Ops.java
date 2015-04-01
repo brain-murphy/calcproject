@@ -93,16 +93,6 @@ public class Ops {
         return result;
     }
 
-    public static double vectorNorm(double[] vector) {
-        double dot = 0;
-
-        for (double ele : vector) {
-            dot += Math.pow(ele, 2);
-        }
-
-        return Math.sqrt(dot);
-    }
-
     public static double[][] transpose(double[][] matrix) {
         double[][] T = deepCopy(matrix);
         for (int i = 0; i < matrix.length; i++) {
@@ -113,23 +103,6 @@ public class Ops {
         }
 
         return T;
-    }
-
-    public static boolean deepEquals(double[][] A, double[][] B) {
-        if (A == null || B == null) {
-            return false;
-        }
-        for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j < A[0].length; j++) {
-
-                if (Math.abs(A[i][j] - B[i][j]) > .00001) {
-                    return false;
-                }
-
-            }
-        }
-
-        return true;
     }
 
     /**
