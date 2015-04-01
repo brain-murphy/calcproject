@@ -397,10 +397,13 @@ public class jacobi {
 
         double tol = 0.0000001;
 
-        double[][] initialX = new double[3][1];
-//        initialX[0][0] = 0;
-//        initialX[1][0] = 0;
-//        initialX[2][0] = 0;
+        double[][] initialX = new double[4][1];
+        initialX[0][0] = 0;
+        initialX[1][0] = 0;
+        initialX[2][0] = 0;
+        initialX[3][0] = 0;
+
+
 
 
         double[][] test = parseMatrix();
