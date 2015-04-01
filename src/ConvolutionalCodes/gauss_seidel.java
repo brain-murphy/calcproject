@@ -1,5 +1,7 @@
 package ConvolutionalCodes;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class gauss_seidel {
 
@@ -349,6 +351,32 @@ public class gauss_seidel {
         }
     }
 
+    public static double[][] parseMatrix() {
+        Scanner in = new Scanner(System.in);
+        LinkedList<Double> elementList = new LinkedList<>();
+        while (in.hasNextDouble()) {
+            elementList.add(in.nextDouble());
+        }
+
+        int n = (int) Math.round(Math.sqrt(elementList.size()));
+
+        double[][] matrix = new double[n][n+1];
+
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = elementList.get((i * n) + j);
+            }
+        }
+
+        for (int k = 0; k < matrix.length; k++) {
+            int l = n + 1;
+            matrix[k][matrix[0].length -1] = elementList.get(l);
+            l += n+2;
+
+        }
+        return matrix;
+    }
 
 
 
