@@ -387,26 +387,26 @@ public class gauss_seidel {
 
 
         double[][] initialX = new double[3][1];
-        initialX[0][0] = 0;
-        initialX[1][0] = 0;
-        initialX[2][0] = 0;
+//        initialX[0][0] = 0;
+//        initialX[1][0] = 0;
+//        initialX[2][0] = 0;
 
 
-        double[][] test = new double[3][4];
-        test[0][0] = 3;
-        test[0][1] = -1;
-        test[0][2] = 1;
-        test[0][3] = 1;
-
-        test[1][0] = 3;
-        test[1][1] = 6;
-        test[1][2] = 2;
-        test[1][3] = 0;
-
-        test[2][0] = 3;
-        test[2][1] = 3;
-        test[2][2] = 7;
-        test[2][3] = 4;
+        double[][] test = parseMatrix();
+//        test[0][0] = 3;
+//        test[0][1] = -1;
+//        test[0][2] = 1;
+//        test[0][3] = 1;
+//
+//        test[1][0] = 3;
+//        test[1][1] = 6;
+//        test[1][2] = 2;
+//        test[1][3] = 0;
+//
+//        test[2][0] = 3;
+//        test[2][1] = 3;
+//        test[2][2] = 7;
+//        test[2][3] = 4;
 
         gauss_seidel g = new gauss_seidel(test,initialX,0.00000001);
 
